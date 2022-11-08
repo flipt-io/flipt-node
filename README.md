@@ -11,9 +11,21 @@ API documentation is available at <https://www.flipt.io/docs>.
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-6l9jie?file=app.ts&view=editor)
 
 ```typescript
-import { TODO } from "TODO";
+const client = new FliptApiClient({
+  auth: {
+    token: 'YOUR_TOKEN',
+  },
+});
 
-const TODO
+const response = await client.flags.create({
+  key: 'abc123',
+  name: 'my-flag-name',
+  description: 'add to cart button as bright blue',
+  enabled: true,
+});
+
+console.log('Received response from Flipt!', response);
+}
 ```
 
 ## Beta status
