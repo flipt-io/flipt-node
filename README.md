@@ -8,7 +8,7 @@ API documentation is available at <https://www.flipt.io/docs>.
 
 ## Usage
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](TODO)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-6l9jie?file=app.ts&view=editor)
 
 ```typescript
 import { TODO } from "TODO";
