@@ -12,8 +12,12 @@ API documentation is available at <https://www.flipt.io/docs>.
 
 ```typescript
 const client = new FliptApiClient({
+  environment: Environment.Production,
   auth: {
-    token: 'YOUR_TOKEN',
+    credentials: {
+      username: 'YOUR_USERNAME',
+      password: 'YOUR_PASSWORD',
+    }
   },
 });
 
