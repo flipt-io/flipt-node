@@ -12,7 +12,7 @@ export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      token?: core.Supplier<core.BearerToken>;
+      credentials?: core.Supplier<core.BasicAuth>;
     };
   }
 }
@@ -29,7 +29,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/segments/"),
       method: "GET",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       queryParameters: queryParameters,
     });
@@ -57,7 +57,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/segments/"),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.segments.fliptCreateSegmentRequest.json(request),
     });
@@ -83,7 +83,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, `/segments/${request.key}`),
       method: "GET",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
     });
     if (response.ok) {
@@ -108,7 +108,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, `/segments/${request.key}`),
       method: "DELETE",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
     });
     if (response.ok) {
@@ -133,7 +133,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, `/segments/${request.key}`),
       method: "PUT",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.segments.fliptUpdateSegmentRequest.json(request._body),
     });

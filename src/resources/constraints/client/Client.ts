@@ -12,7 +12,7 @@ export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      token?: core.Supplier<core.BearerToken>;
+      credentials?: core.Supplier<core.BasicAuth>;
     };
   }
 }
@@ -28,7 +28,7 @@ export class Client {
       ),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.constraints.fliptConstraintCreateRequest.json(request._body),
     });
@@ -59,7 +59,7 @@ export class Client {
       ),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
     });
     if (response.ok) {
@@ -87,7 +87,7 @@ export class Client {
       ),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.constraints.fliptConstraintUpdateRequest.json(request._body),
     });

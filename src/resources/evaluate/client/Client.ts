@@ -12,7 +12,7 @@ export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      token?: core.Supplier<core.BearerToken>;
+      credentials?: core.Supplier<core.BasicAuth>;
     };
   }
 }
@@ -27,7 +27,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/evaluate"),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.evaluate.fliptEvaluationRequest.json(request),
     });
@@ -57,7 +57,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/batch-evaluate"),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.evaluate.fliptBatchEvaluationRequest.json(request),
     });

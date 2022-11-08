@@ -12,7 +12,7 @@ export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      token?: core.Supplier<core.BearerToken>;
+      credentials?: core.Supplier<core.BasicAuth>;
     };
   }
 }
@@ -28,7 +28,7 @@ export class Client {
       ),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.distributions.fliptDistributionCreate.json(request._body),
     });
@@ -61,7 +61,7 @@ export class Client {
       ),
       method: "DELETE",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       queryParameters: queryParameters,
     });
@@ -90,7 +90,7 @@ export class Client {
       ),
       method: "PUT",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.distributions.fliptDistributionUpdate.json(request._body),
     });

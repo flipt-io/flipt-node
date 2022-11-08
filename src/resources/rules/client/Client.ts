@@ -12,7 +12,7 @@ export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      token?: core.Supplier<core.BearerToken>;
+      credentials?: core.Supplier<core.BasicAuth>;
     };
   }
 }
@@ -38,7 +38,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.flagKey}/rules/`),
       method: "GET",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       queryParameters: queryParameters,
     });
@@ -64,7 +64,7 @@ export class Client {
       url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.flagKey}/rules/`),
       method: "POST",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.rules.fliptRuleCreate.json(request._body),
     });
@@ -93,7 +93,7 @@ export class Client {
       ),
       method: "PUT",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.rules.fliptRuleOrder.json(request._body),
     });
@@ -122,7 +122,7 @@ export class Client {
       ),
       method: "GET",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
     });
     if (response.ok) {
@@ -150,7 +150,7 @@ export class Client {
       ),
       method: "DELETE",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
     });
     if (response.ok) {
@@ -178,7 +178,7 @@ export class Client {
       ),
       method: "PUT",
       headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
       body: serializers.rules.fliptRuleUpdate.json(request._body),
     });
