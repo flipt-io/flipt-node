@@ -1,0 +1,33 @@
+{
+    "name": "@fern-api/flipt",
+    "version": "0.0.1",
+    "repository": "https://github.com/fern-flipt/flipt-node",
+    "files": [
+        "core",
+        "resources",
+        "serialization",
+        "client",
+        "*.{js,js.map,d.ts}"
+    ],
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "scripts": {
+        "format": "prettier --write --print-width 120 'src/**/*.ts'",
+        "build": "esbuild $(find src -name '*.ts') --format=cjs --sourcemap --outdir=. && tsc"
+    },
+    "dependencies": {
+        "@types/basic-auth": "^1.1.3",
+        "@types/url-join": "4.0.1",
+        "axios": "^0.27.2",
+        "basic-auth": "^2.0.1",
+        "js-base64": "^3.7.2",
+        "url-join": "4.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "17.0.33",
+        "esbuild": "0.14.47",
+        "prettier": "2.7.1",
+        "typescript": "4.6.4"
+    },
+    "packageManager": "yarn@3.2.4"
+}
