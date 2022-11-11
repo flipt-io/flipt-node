@@ -1,7 +1,7 @@
 {
     "name": "@fern-api/flipt",
-    "version": "0.0.8",
-    "repository": "https://github.com/fern-flipt/flipt-node",
+    "version": "0.0.10",
+    "repository": "https://github.com/flipt-io/flipt-node",
     "files": [
         "core",
         "resources",
