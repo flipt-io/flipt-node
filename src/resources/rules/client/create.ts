@@ -11,7 +11,7 @@ export interface Request {
 }
 
 export type Response = core.APIResponse<FliptApi.rules.fliptRule, FliptApi.rules.create.Error>;
-export type Error = Error._Unknown;
+export type Error = FliptApi.rules.create.Error._Unknown;
 
 export declare namespace Error {
   interface _Unknown extends _Utils {
@@ -20,10 +20,10 @@ export declare namespace Error {
   }
 
   interface _Utils {
-    _visit: <Result>(visitor: Error._Visitor<Result>) => Result;
+    _visit: <_Result>(visitor: FliptApi.rules.create.Error._Visitor<_Result>) => _Result;
   }
 
-  interface _Visitor<Result> {
-    _other: (value: core.Fetcher.Error) => Result;
+  interface _Visitor<_Result> {
+    _other: (value: core.Fetcher.Error) => _Result;
   }
 }
