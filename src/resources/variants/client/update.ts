@@ -8,10 +8,10 @@ import * as core from "../../../core";
 export interface Request {
   flagKey: string;
   id: string;
-  _body: FliptApi.variants.fliptVariantUpdate;
+  _body: FliptApi.variants.variantUpdateRequest;
 }
 
-export type Response = core.APIResponse<FliptApi.variants.fliptVariant, FliptApi.variants.update.Error>;
+export type Response = core.APIResponse<FliptApi.variants.variant, FliptApi.variants.update.Error>;
 export type Error = FliptApi.variants.update.Error._Unknown;
 
 export declare namespace Error {

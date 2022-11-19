@@ -35,7 +35,10 @@ export class Client {
     }
 
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.flagKey}/rules/`),
+      url: urlJoin(
+        this.options.environment ?? environments.Environment.Production,
+        `/api/v1/flags/${request.flagKey}/rules/`
+      ),
       method: "GET",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -45,7 +48,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.rules.fliptRuleList.parse(response.body as serializers.rules.fliptRuleList.Raw),
+        body: serializers.rules.ruleList.parse(response.body as serializers.rules.ruleList.Raw),
       };
     }
 
@@ -61,17 +64,20 @@ export class Client {
 
   public async create(request: FliptApi.rules.create.Request): Promise<FliptApi.rules.create.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.flagKey}/rules/`),
+      url: urlJoin(
+        this.options.environment ?? environments.Environment.Production,
+        `/api/v1/flags/${request.flagKey}/rules/`
+      ),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.rules.fliptRuleCreate.json(request._body),
+      body: serializers.rules.ruleCreateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.rules.fliptRule.parse(response.body as serializers.rules.fliptRule.Raw),
+        body: serializers.rules.rule.parse(response.body as serializers.rules.rule.Raw),
       };
     }
 
@@ -89,13 +95,13 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/order`
+        `/api/v1/flags/${request.flagKey}/rules/order`
       ),
       method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.rules.fliptRuleOrder.json(request._body),
+      body: serializers.rules.ruleOrder.json(request._body),
     });
     if (response.ok) {
       return {
@@ -118,7 +124,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/${request.id}`
+        `/api/v1/flags/${request.flagKey}/rules/${request.id}`
       ),
       method: "GET",
       headers: {
@@ -128,7 +134,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.rules.fliptRule.parse(response.body as serializers.rules.fliptRule.Raw),
+        body: serializers.rules.rule.parse(response.body as serializers.rules.rule.Raw),
       };
     }
 
@@ -146,7 +152,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/${request.id}`
+        `/api/v1/flags/${request.flagKey}/rules/${request.id}`
       ),
       method: "DELETE",
       headers: {
@@ -174,13 +180,13 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/${request.id}`
+        `/api/v1/flags/${request.flagKey}/rules/${request.id}`
       ),
       method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.rules.fliptRuleUpdate.json(request._body),
+      body: serializers.rules.ruleUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {

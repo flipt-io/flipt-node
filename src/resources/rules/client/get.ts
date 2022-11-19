@@ -10,7 +10,7 @@ export interface Request {
   id: string;
 }
 
-export type Response = core.APIResponse<FliptApi.rules.fliptRule, FliptApi.rules.get.Error>;
+export type Response = core.APIResponse<FliptApi.rules.rule, FliptApi.rules.get.Error>;
 export type Error = FliptApi.rules.get.Error._Unknown;
 
 export declare namespace Error {

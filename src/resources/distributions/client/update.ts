@@ -9,10 +9,10 @@ export interface Request {
   flagKey: string;
   ruleId: string;
   id: string;
-  _body: FliptApi.distributions.fliptDistributionUpdate;
+  _body: FliptApi.distributions.distributionUpdateRequest;
 }
 
-export type Response = core.APIResponse<FliptApi.distributions.fliptDistribution, FliptApi.distributions.update.Error>;
+export type Response = core.APIResponse<FliptApi.distributions.distribution, FliptApi.distributions.update.Error>;
 export type Error = FliptApi.distributions.update.Error._Unknown;
 
 export declare namespace Error {

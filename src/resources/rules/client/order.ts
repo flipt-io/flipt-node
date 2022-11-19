@@ -7,7 +7,7 @@ import * as core from "../../../core";
 
 export interface Request {
   flagKey: string;
-  _body: FliptApi.rules.fliptRuleOrder;
+  _body: FliptApi.rules.ruleOrder;
 }
 
 export type Response = core.APIResponse<void, FliptApi.rules.order.Error>;

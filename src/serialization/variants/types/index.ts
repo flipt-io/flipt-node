@@ -1,3 +1,3 @@
-export * from "./fliptVariant";
-export * from "./fliptVariantCreate";
-export * from "./fliptVariantUpdate";
+export * from "./variant";
+export * from "./variantCreateRequest";
+export * from "./variantUpdateRequest";

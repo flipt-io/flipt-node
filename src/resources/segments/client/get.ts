@@ -9,7 +9,7 @@ export interface Request {
   key: string;
 }
 
-export type Response = core.APIResponse<FliptApi.segments.fliptSegment, FliptApi.segments.get.Error>;
+export type Response = core.APIResponse<FliptApi.segments.segment, FliptApi.segments.get.Error>;
 export type Error = FliptApi.segments.get.Error._Unknown;
 
 export declare namespace Error {

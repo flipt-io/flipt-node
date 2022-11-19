@@ -7,10 +7,10 @@ import * as core from "../../../core";
 
 export interface Request {
   key: string;
-  _body: FliptApi.segments.fliptUpdateSegmentRequest;
+  _body: FliptApi.segments.segmentUpdateRequest;
 }
 
-export type Response = core.APIResponse<FliptApi.segments.fliptSegment, FliptApi.segments.update.Error>;
+export type Response = core.APIResponse<FliptApi.segments.segment, FliptApi.segments.update.Error>;
 export type Error = FliptApi.segments.update.Error._Unknown;
 
 export declare namespace Error {

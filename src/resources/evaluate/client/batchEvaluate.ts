@@ -6,7 +6,7 @@ import { FliptApi } from "../../..";
 import * as core from "../../../core";
 
 export type Response = core.APIResponse<
-  FliptApi.evaluate.fliptBatchEvaluationResponse,
+  FliptApi.evaluate.batchEvaluationResponse,
   FliptApi.evaluate.batchEvaluate.Error
 >;
 export type Error = FliptApi.evaluate.batchEvaluate.Error._Unknown;

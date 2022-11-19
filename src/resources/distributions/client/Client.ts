@@ -24,20 +24,18 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/${request.ruleId}/distributions/`
+        `/api/v1/flags/${request.flagKey}/rules/${request.ruleId}/distributions/`
       ),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.distributions.fliptDistributionCreate.json(request._body),
+      body: serializers.distributions.distributionCreateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.distributions.fliptDistribution.parse(
-          response.body as serializers.distributions.fliptDistribution.Raw
-        ),
+        body: serializers.distributions.distribution.parse(response.body as serializers.distributions.distribution.Raw),
       };
     }
 
@@ -57,7 +55,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/${request.ruleId}/distributions/${request.id}`
+        `/api/v1/flags/${request.flagKey}/rules/${request.ruleId}/distributions/${request.id}`
       ),
       method: "DELETE",
       headers: {
@@ -86,20 +84,18 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/rules/${request.ruleId}/distributions/${request.id}`
+        `/api/v1/flags/${request.flagKey}/rules/${request.ruleId}/distributions/${request.id}`
       ),
       method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.distributions.fliptDistributionUpdate.json(request._body),
+      body: serializers.distributions.distributionUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.distributions.fliptDistribution.parse(
-          response.body as serializers.distributions.fliptDistribution.Raw
-        ),
+        body: serializers.distributions.distribution.parse(response.body as serializers.distributions.distribution.Raw),
       };
     }
 

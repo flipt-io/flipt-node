@@ -12,7 +12,7 @@ export interface Request {
   flagKey: string;
 }
 
-export type Response = core.APIResponse<FliptApi.rules.fliptRuleList, FliptApi.rules.list.Error>;
+export type Response = core.APIResponse<FliptApi.rules.ruleList, FliptApi.rules.list.Error>;
 export type Error = FliptApi.rules.list.Error._Unknown;
 
 export declare namespace Error {

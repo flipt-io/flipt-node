@@ -7,10 +7,10 @@ import * as core from "../../../core";
 
 export interface Request {
   segmentKey: string;
-  _body: FliptApi.constraints.fliptConstraintCreateRequest;
+  _body: FliptApi.constraints.constraintCreateRequest;
 }
 
-export type Response = core.APIResponse<FliptApi.constraints.fliptConstraint, FliptApi.constraints.create.Error>;
+export type Response = core.APIResponse<FliptApi.constraints.constraint, FliptApi.constraints.create.Error>;
 export type Error = FliptApi.constraints.create.Error._Unknown;
 
 export declare namespace Error {

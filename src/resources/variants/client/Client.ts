@@ -24,18 +24,18 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/variants/`
+        `/api/v1/flags/${request.flagKey}/variants/`
       ),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.variants.fliptVariantCreate.json(request._body),
+      body: serializers.variants.variantCreateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.variants.fliptVariant.parse(response.body as serializers.variants.fliptVariant.Raw),
+        body: serializers.variants.variant.parse(response.body as serializers.variants.variant.Raw),
       };
     }
 
@@ -53,7 +53,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/variants/${request.id}`
+        `/api/v1/flags/${request.flagKey}/variants/${request.id}`
       ),
       method: "DELETE",
       headers: {
@@ -81,18 +81,18 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/flags/${request.flagKey}/variants/${request.id}`
+        `/api/v1/flags/${request.flagKey}/variants/${request.id}`
       ),
       method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.variants.fliptVariantUpdate.json(request._body),
+      body: serializers.variants.variantUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.variants.fliptVariant.parse(response.body as serializers.variants.fliptVariant.Raw),
+        body: serializers.variants.variant.parse(response.body as serializers.variants.variant.Raw),
       };
     }
 

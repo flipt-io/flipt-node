@@ -11,7 +11,7 @@ export interface Request {
   pageToken?: string;
 }
 
-export type Response = core.APIResponse<FliptApi.flags.fliptFlagList, FliptApi.flags.list.Error>;
+export type Response = core.APIResponse<FliptApi.flags.flagList, FliptApi.flags.list.Error>;
 export type Error = FliptApi.flags.list.Error._Unknown;
 
 export declare namespace Error {

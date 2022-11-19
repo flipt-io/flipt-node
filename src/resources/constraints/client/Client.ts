@@ -24,20 +24,18 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/segments/${request.segmentKey}/constraints/`
+        `/api/v1/segments/${request.segmentKey}/constraints/`
       ),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.constraints.fliptConstraintCreateRequest.json(request._body),
+      body: serializers.constraints.constraintCreateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.constraints.fliptConstraint.parse(
-          response.body as serializers.constraints.fliptConstraint.Raw
-        ),
+        body: serializers.constraints.constraint.parse(response.body as serializers.constraints.constraint.Raw),
       };
     }
 
@@ -55,7 +53,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/segments/${request.segmentKey}/constraints/${request.id}`
+        `/api/v1/segments/${request.segmentKey}/constraints/${request.id}`
       ),
       method: "POST",
       headers: {
@@ -83,13 +81,13 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/segments/${request.segmentKey}/constraints/${request.id}`
+        `/api/v1/segments/${request.segmentKey}/constraints/${request.id}`
       ),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.constraints.fliptConstraintUpdateRequest.json(request._body),
+      body: serializers.constraints.constraintUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {

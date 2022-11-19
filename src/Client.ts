@@ -4,6 +4,7 @@
 
 import * as environments from "./environments";
 import * as core from "./core";
+import { Client as AuthClient } from "./resources/auth/client/Client";
 import { Client as ConstraintsClient } from "./resources/constraints/client/Client";
 import { Client as DistributionsClient } from "./resources/distributions/client/Client";
 import { Client as EvaluateClient } from "./resources/evaluate/client/Client";
@@ -23,6 +24,12 @@ export declare namespace FliptApiClient {
 
 export class FliptApiClient {
   constructor(private readonly options: FliptApiClient.Options) {}
+
+  #auth: AuthClient | undefined;
+
+  public get auth(): AuthClient {
+    return (this.#auth ??= new AuthClient(this.options));
+  }
 
   #constraints: ConstraintsClient | undefined;
 

@@ -1,3 +1,3 @@
-export * from "./fliptDistribution";
-export * from "./fliptDistributionCreate";
-export * from "./fliptDistributionUpdate";
+export * from "./distribution";
+export * from "./distributionCreateRequest";
+export * from "./distributionUpdateRequest";

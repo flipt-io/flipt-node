@@ -7,10 +7,10 @@ import * as core from "../../../core";
 
 export interface Request {
   key: string;
-  _body: FliptApi.flags.fliptFlagUpdate;
+  _body: FliptApi.flags.flagUpdateRequest;
 }
 
-export type Response = core.APIResponse<FliptApi.flags.fliptFlag, FliptApi.flags.update.Error>;
+export type Response = core.APIResponse<FliptApi.flags.flag, FliptApi.flags.update.Error>;
 export type Error = FliptApi.flags.update.Error._Unknown;
 
 export declare namespace Error {

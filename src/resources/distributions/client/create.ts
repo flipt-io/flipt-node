@@ -8,10 +8,10 @@ import * as core from "../../../core";
 export interface Request {
   flagKey: string;
   ruleId: string;
-  _body: FliptApi.distributions.fliptDistributionCreate;
+  _body: FliptApi.distributions.distributionCreateRequest;
 }
 
-export type Response = core.APIResponse<FliptApi.distributions.fliptDistribution, FliptApi.distributions.create.Error>;
+export type Response = core.APIResponse<FliptApi.distributions.distribution, FliptApi.distributions.create.Error>;
 export type Error = FliptApi.distributions.create.Error._Unknown;
 
 export declare namespace Error {

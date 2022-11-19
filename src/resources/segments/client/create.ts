@@ -5,7 +5,7 @@
 import { FliptApi } from "../../..";
 import * as core from "../../../core";
 
-export type Response = core.APIResponse<FliptApi.segments.fliptSegment, FliptApi.segments.create.Error>;
+export type Response = core.APIResponse<FliptApi.segments.segment, FliptApi.segments.create.Error>;
 export type Error = FliptApi.segments.create.Error._Unknown;
 
 export declare namespace Error {

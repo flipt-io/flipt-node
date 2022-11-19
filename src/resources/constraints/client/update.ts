@@ -8,7 +8,7 @@ import * as core from "../../../core";
 export interface Request {
   segmentKey: string;
   id: string;
-  _body: FliptApi.constraints.fliptConstraintUpdateRequest;
+  _body: FliptApi.constraints.constraintUpdateRequest;
 }
 
 export type Response = core.APIResponse<void, FliptApi.constraints.update.Error>;

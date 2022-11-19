@@ -3,7 +3,7 @@
  */
 
 export const Environment = {
-  Production: "https://flipt.io/api/v1",
+  Production: "http://localhost:8080",
 } as const;
 
 export type Environment = typeof Environment.Production;

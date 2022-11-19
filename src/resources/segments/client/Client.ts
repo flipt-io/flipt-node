@@ -26,7 +26,7 @@ export class Client {
     queryParameters.append("offset", request.offset.toString());
     queryParameters.append("pageToken", request.pageToken);
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/segments/"),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/segments/"),
       method: "GET",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -36,7 +36,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.segments.fliptSegmentList.parse(response.body as serializers.segments.fliptSegmentList.Raw),
+        body: serializers.segments.segmentList.parse(response.body as serializers.segments.segmentList.Raw),
       };
     }
 
@@ -50,21 +50,19 @@ export class Client {
     };
   }
 
-  public async create(
-    request: FliptApi.segments.fliptCreateSegmentRequest
-  ): Promise<FliptApi.segments.create.Response> {
+  public async create(request: FliptApi.segments.segmentCreateRequest): Promise<FliptApi.segments.create.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/segments/"),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/segments/"),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.segments.fliptCreateSegmentRequest.json(request),
+      body: serializers.segments.segmentCreateRequest.json(request),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.segments.fliptSegment.parse(response.body as serializers.segments.fliptSegment.Raw),
+        body: serializers.segments.segment.parse(response.body as serializers.segments.segment.Raw),
       };
     }
 
@@ -80,7 +78,7 @@ export class Client {
 
   public async get(request: FliptApi.segments.get.Request): Promise<FliptApi.segments.get.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/segments/${request.key}`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/api/v1/segments/${request.key}`),
       method: "GET",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -89,7 +87,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.segments.fliptSegment.parse(response.body as serializers.segments.fliptSegment.Raw),
+        body: serializers.segments.segment.parse(response.body as serializers.segments.segment.Raw),
       };
     }
 
@@ -105,7 +103,7 @@ export class Client {
 
   public async delete(request: FliptApi.segments.delete.Request): Promise<FliptApi.segments.delete.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/segments/${request.key}`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/api/v1/segments/${request.key}`),
       method: "DELETE",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -130,17 +128,17 @@ export class Client {
 
   public async update(request: FliptApi.segments.update.Request): Promise<FliptApi.segments.update.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/segments/${request.key}`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/api/v1/segments/${request.key}`),
       method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.segments.fliptUpdateSegmentRequest.json(request._body),
+      body: serializers.segments.segmentUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.segments.fliptSegment.parse(response.body as serializers.segments.fliptSegment.Raw),
+        body: serializers.segments.segment.parse(response.body as serializers.segments.segment.Raw),
       };
     }
 

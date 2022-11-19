@@ -35,7 +35,7 @@ export class Client {
     }
 
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/flags/"),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags/"),
       method: "GET",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -45,7 +45,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.fliptFlagList.parse(response.body as serializers.flags.fliptFlagList.Raw),
+        body: serializers.flags.flagList.parse(response.body as serializers.flags.flagList.Raw),
       };
     }
 
@@ -59,19 +59,19 @@ export class Client {
     };
   }
 
-  public async create(request: FliptApi.flags.fliptCreateFlagRequest): Promise<FliptApi.flags.create.Response> {
+  public async create(request: FliptApi.flags.flagCreateRequest): Promise<FliptApi.flags.create.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/flags/"),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags/"),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.flags.fliptCreateFlagRequest.json(request),
+      body: serializers.flags.flagCreateRequest.json(request),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.fliptFlag.parse(response.body as serializers.flags.fliptFlag.Raw),
+        body: serializers.flags.flag.parse(response.body as serializers.flags.flag.Raw),
       };
     }
 
@@ -87,7 +87,7 @@ export class Client {
 
   public async get(request: FliptApi.flags.get.Request): Promise<FliptApi.flags.get.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.key}`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/api/v1/flags/${request.key}`),
       method: "GET",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -96,7 +96,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.fliptFlag.parse(response.body as serializers.flags.fliptFlag.Raw),
+        body: serializers.flags.flag.parse(response.body as serializers.flags.flag.Raw),
       };
     }
 
@@ -112,7 +112,7 @@ export class Client {
 
   public async delete(request: FliptApi.flags.delete.Request): Promise<FliptApi.flags.delete.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.key}`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/api/v1/flags/${request.key}`),
       method: "DELETE",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
@@ -137,17 +137,17 @@ export class Client {
 
   public async update(request: FliptApi.flags.update.Request): Promise<FliptApi.flags.update.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/flags/${request.key}`),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, `/api/v1/flags/${request.key}`),
       method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.flags.fliptFlagUpdate.json(request._body),
+      body: serializers.flags.flagUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.fliptFlag.parse(response.body as serializers.flags.fliptFlag.Raw),
+        body: serializers.flags.flag.parse(response.body as serializers.flags.flag.Raw),
       };
     }
 
