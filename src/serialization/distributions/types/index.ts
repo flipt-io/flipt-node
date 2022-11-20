@@ -1,3 +1,3 @@
-export * from "./distribution";
-export * from "./distributionCreateRequest";
-export * from "./distributionUpdateRequest";
+export * from "./Distribution";
+export * from "./DistributionCreateRequest";
+export * from "./DistributionUpdateRequest";

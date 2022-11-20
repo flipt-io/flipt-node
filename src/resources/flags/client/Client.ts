@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { FliptApi } from "../../..";
+import { FliptApi } from "@fern-api/flipt";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 
@@ -45,7 +45,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.flagList.parse(response.body as serializers.flags.flagList.Raw),
+        body: await serializers.FlagList.parse(response.body as serializers.FlagList.Raw),
       };
     }
 
@@ -59,19 +59,19 @@ export class Client {
     };
   }
 
-  public async create(request: FliptApi.flags.flagCreateRequest): Promise<FliptApi.flags.create.Response> {
+  public async create(request: FliptApi.FlagCreateRequest): Promise<FliptApi.flags.create.Response> {
     const response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags/"),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.flags.flagCreateRequest.json(request),
+      body: await serializers.FlagCreateRequest.json(request),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.flag.parse(response.body as serializers.flags.flag.Raw),
+        body: await serializers.Flag.parse(response.body as serializers.Flag.Raw),
       };
     }
 
@@ -96,7 +96,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.flag.parse(response.body as serializers.flags.flag.Raw),
+        body: await serializers.Flag.parse(response.body as serializers.Flag.Raw),
       };
     }
 
@@ -142,12 +142,12 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.flags.flagUpdateRequest.json(request._body),
+      body: await serializers.FlagUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.flags.flag.parse(response.body as serializers.flags.flag.Raw),
+        body: await serializers.Flag.parse(response.body as serializers.Flag.Raw),
       };
     }
 

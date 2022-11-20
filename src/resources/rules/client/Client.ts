@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { FliptApi } from "../../..";
+import { FliptApi } from "@fern-api/flipt";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 
@@ -48,7 +48,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.rules.ruleList.parse(response.body as serializers.rules.ruleList.Raw),
+        body: await serializers.RuleList.parse(response.body as serializers.RuleList.Raw),
       };
     }
 
@@ -72,12 +72,12 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.rules.ruleCreateRequest.json(request._body),
+      body: await serializers.RuleCreateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.rules.rule.parse(response.body as serializers.rules.rule.Raw),
+        body: await serializers.Rule.parse(response.body as serializers.Rule.Raw),
       };
     }
 
@@ -101,7 +101,7 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.rules.ruleOrder.json(request._body),
+      body: await serializers.RuleOrder.json(request._body),
     });
     if (response.ok) {
       return {
@@ -134,7 +134,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.rules.rule.parse(response.body as serializers.rules.rule.Raw),
+        body: await serializers.Rule.parse(response.body as serializers.Rule.Raw),
       };
     }
 
@@ -186,7 +186,7 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.rules.ruleUpdateRequest.json(request._body),
+      body: await serializers.RuleUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {

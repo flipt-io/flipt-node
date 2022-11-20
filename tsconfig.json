@@ -2,17 +2,24 @@
     "compilerOptions": {
         "strict": true,
         "target": "esnext",
+        "module": "commonjs",
         "moduleResolution": "node",
+        "esModuleInterop": true,
         "skipLibCheck": true,
         "declaration": true,
         "sourceMap": true,
-        "emitDeclarationOnly": true,
-        "esModuleInterop": true,
+        "inlineSources": true,
         "noUncheckedIndexedAccess": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "declarationDir": ".",
-        "rootDir": "src"
+        "outDir": ".",
+        "rootDir": "src",
+        "baseUrl": "src",
+        "paths": {
+            "@fern-api/flipt": [
+                "."
+            ]
+        }
     },
     "include": [
         "src"

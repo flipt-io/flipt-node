@@ -1,3 +1,3 @@
-export * from "./variant";
-export * from "./variantCreateRequest";
-export * from "./variantUpdateRequest";
+export * from "./Variant";
+export * from "./VariantCreateRequest";
+export * from "./VariantUpdateRequest";

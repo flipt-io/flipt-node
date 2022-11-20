@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { FliptApi } from "../../..";
+import { FliptApi } from "@fern-api/flipt";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 
@@ -30,12 +30,12 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.constraints.constraintCreateRequest.json(request._body),
+      body: await serializers.ConstraintCreateRequest.json(request._body),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.constraints.constraint.parse(response.body as serializers.constraints.constraint.Raw),
+        body: await serializers.Constraint.parse(response.body as serializers.Constraint.Raw),
       };
     }
 
@@ -87,7 +87,7 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.constraints.constraintUpdateRequest.json(request._body),
+      body: await serializers.ConstraintUpdateRequest.json(request._body),
     });
     if (response.ok) {
       return {

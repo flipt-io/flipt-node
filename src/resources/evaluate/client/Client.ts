@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { FliptApi } from "../../..";
+import { FliptApi } from "@fern-api/flipt";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 
@@ -20,21 +20,19 @@ export declare namespace Client {
 export class Client {
   constructor(private readonly options: Client.Options) {}
 
-  public async evaluate(request: FliptApi.evaluate.evaluationRequest): Promise<FliptApi.evaluate.evaluate.Response> {
+  public async evaluate(request: FliptApi.EvaluationRequest): Promise<FliptApi.evaluate.evaluate.Response> {
     const response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/evaluate"),
       method: "POST",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.evaluate.evaluationRequest.json(request),
+      body: await serializers.EvaluationRequest.json(request),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.evaluate.evaluationResponse.parse(
-          response.body as serializers.evaluate.evaluationResponse.Raw
-        ),
+        body: await serializers.EvaluationResponse.parse(response.body as serializers.EvaluationResponse.Raw),
       };
     }
 
@@ -49,7 +47,7 @@ export class Client {
   }
 
   public async batchEvaluate(
-    request: FliptApi.evaluate.batchEvaluationRequest
+    request: FliptApi.BatchEvaluationRequest
   ): Promise<FliptApi.evaluate.batchEvaluate.Response> {
     const response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/batch-evaluate"),
@@ -57,14 +55,12 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.evaluate.batchEvaluationRequest.json(request),
+      body: await serializers.BatchEvaluationRequest.json(request),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.evaluate.batchEvaluationResponse.parse(
-          response.body as serializers.evaluate.batchEvaluationResponse.Raw
-        ),
+        body: await serializers.BatchEvaluationResponse.parse(response.body as serializers.BatchEvaluationResponse.Raw),
       };
     }
 

@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { FliptApi } from "../../..";
+import { FliptApi } from "@fern-api/flipt";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 
@@ -31,7 +31,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.auth.authenticationList.parse(response.body as serializers.auth.authenticationList.Raw),
+        body: await serializers.AuthenticationList.parse(response.body as serializers.AuthenticationList.Raw),
       };
     }
 
@@ -56,7 +56,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.auth.authentication.parse(response.body as serializers.auth.authentication.Raw),
+        body: await serializers.Authentication.parse(response.body as serializers.Authentication.Raw),
       };
     }
 
@@ -71,7 +71,7 @@ export class Client {
   }
 
   public async createToken(
-    request: FliptApi.auth.authenticationTokenCreateRequest
+    request: FliptApi.AuthenticationTokenCreateRequest
   ): Promise<FliptApi.auth.createToken.Response> {
     const response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/auth/v1/method/token"),
@@ -79,12 +79,12 @@ export class Client {
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
-      body: serializers.auth.authenticationTokenCreateRequest.json(request),
+      body: await serializers.AuthenticationTokenCreateRequest.json(request),
     });
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.auth.authenticationToken.parse(response.body as serializers.auth.authenticationToken.Raw),
+        body: await serializers.AuthenticationToken.parse(response.body as serializers.AuthenticationToken.Raw),
       };
     }
 
@@ -134,7 +134,7 @@ export class Client {
     if (response.ok) {
       return {
         ok: true,
-        body: serializers.auth.authentication.parse(response.body as serializers.auth.authentication.Raw),
+        body: await serializers.Authentication.parse(response.body as serializers.Authentication.Raw),
       };
     }
 
