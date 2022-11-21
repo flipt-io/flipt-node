@@ -17,7 +17,7 @@ export declare namespace FliptApiClient {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      credentials?: core.Supplier<core.BasicAuth>;
+      token?: core.Supplier<core.BearerToken>;
     };
   }
 }

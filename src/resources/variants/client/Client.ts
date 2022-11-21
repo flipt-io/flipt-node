@@ -12,7 +12,7 @@ export declare namespace Client {
   interface Options {
     environment?: environments.Environment | string;
     auth?: {
-      credentials?: core.Supplier<core.BasicAuth>;
+      token?: core.Supplier<core.BearerToken>;
     };
   }
 }
@@ -28,7 +28,7 @@ export class Client {
       ),
       method: "POST",
       headers: {
-        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
       },
       body: await serializers.VariantCreateRequest.json(request._body),
     });
@@ -57,7 +57,7 @@ export class Client {
       ),
       method: "DELETE",
       headers: {
-        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
       },
     });
     if (response.ok) {
@@ -85,7 +85,7 @@ export class Client {
       ),
       method: "PUT",
       headers: {
-        Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
       },
       body: await serializers.VariantUpdateRequest.json(request._body),
     });
