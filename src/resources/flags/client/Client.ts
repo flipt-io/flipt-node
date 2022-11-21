@@ -4,7 +4,7 @@
 
 import * as environments from "../../../environments";
 import * as core from "../../../core";
-import { FliptApi } from "@fern-api/flipt";
+import { FliptApi } from "@flipt-io/flipt";
 import urlJoin from "url-join";
 import * as serializers from "../../../serialization";
 
