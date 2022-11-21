@@ -1,28 +1,24 @@
 {
-    "compilerOptions": {
-        "strict": true,
-        "target": "esnext",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "declaration": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "noUncheckedIndexedAccess": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "outDir": ".",
-        "rootDir": "src",
-        "baseUrl": "src",
-        "paths": {
-            "@fern-api/flipt": [
-                "."
-            ]
-        }
-    },
-    "include": [
-        "src"
-    ],
-    "exclude": []
+  "compilerOptions": {
+    "strict": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": ".",
+    "rootDir": "src",
+    "baseUrl": "src",
+    "paths": {
+      "@flipt-io/flipt": ["."]
+    }
+  },
+  "include": ["src"],
+  "exclude": []
 }
