@@ -1,5 +1,5 @@
 {
-    "name": "@fern-api/flipt",
+    "name": "@flipt-io/flipt",
     "version": "0.1.0",
     "repository": "https://github.com/flipt-io/flipt-node",
     "files": [

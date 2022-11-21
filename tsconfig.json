@@ -16,7 +16,7 @@
         "rootDir": "src",
         "baseUrl": "src",
         "paths": {
-            "@fern-api/flipt": [
+            "@flipt-io/flipt": [
                 "."
             ]
         }
