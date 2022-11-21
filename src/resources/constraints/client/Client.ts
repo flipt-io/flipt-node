@@ -55,7 +55,7 @@ export class Client {
         this.options.environment ?? environments.Environment.Production,
         `/api/v1/segments/${request.segmentKey}/constraints/${request.id}`
       ),
-      method: "POST",
+      method: "DELETE",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
@@ -83,7 +83,7 @@ export class Client {
         this.options.environment ?? environments.Environment.Production,
         `/api/v1/segments/${request.segmentKey}/constraints/${request.id}`
       ),
-      method: "POST",
+      method: "PUT",
       headers: {
         Authorization: core.BasicAuth.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.credentials)),
       },
