@@ -4,6 +4,7 @@
 
 import { FliptApi } from "@fern-api/flipt";
 
-export interface AuthenticationList extends FliptApi.Pageable {
+export interface AuthenticationList {
   authentications: FliptApi.Authentication[];
+  nextPageToken: string;
 }

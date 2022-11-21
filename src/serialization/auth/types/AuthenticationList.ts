@@ -7,14 +7,14 @@ import * as core from "../../../core";
 import * as serializers from "../..";
 
 export const AuthenticationList: core.schemas.ObjectSchema<AuthenticationList.Raw, FliptApi.AuthenticationList> =
-  core.schemas
-    .object({
-      authentications: core.schemas.list(core.schemas.lazyObject(async () => (await import("../..")).Authentication)),
-    })
-    .extend(core.schemas.lazyObject(async () => (await import("../..")).Pageable));
+  core.schemas.object({
+    authentications: core.schemas.list(core.schemas.lazyObject(async () => (await import("../..")).Authentication)),
+    nextPageToken: core.schemas.string(),
+  });
 
 export declare namespace AuthenticationList {
-  interface Raw extends serializers.Pageable.Raw {
+  interface Raw {
     authentications: serializers.Authentication.Raw[];
+    nextPageToken: string;
   }
 }
