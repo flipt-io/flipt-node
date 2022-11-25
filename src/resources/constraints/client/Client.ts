@@ -24,7 +24,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/api/v1/segments/${request.segmentKey}/constraints/`
+        `/api/v1/segments/${request.segmentKey}/constraints`
       ),
       method: "POST",
       headers: {

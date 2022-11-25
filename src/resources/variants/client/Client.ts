@@ -24,7 +24,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/api/v1/flags/${request.flagKey}/variants/`
+        `/api/v1/flags/${request.flagKey}/variants`
       ),
       method: "POST",
       headers: {

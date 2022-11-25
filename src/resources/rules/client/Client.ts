@@ -37,7 +37,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/api/v1/flags/${request.flagKey}/rules/`
+        `/api/v1/flags/${request.flagKey}/rules`
       ),
       method: "GET",
       headers: {
@@ -66,7 +66,7 @@ export class Client {
     const response = await core.fetcher({
       url: urlJoin(
         this.options.environment ?? environments.Environment.Production,
-        `/api/v1/flags/${request.flagKey}/rules/`
+        `/api/v1/flags/${request.flagKey}/rules`
       ),
       method: "POST",
       headers: {

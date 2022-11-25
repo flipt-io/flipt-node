@@ -35,7 +35,7 @@ export class Client {
     }
 
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags/"),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags"),
       method: "GET",
       headers: {
         Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
@@ -61,7 +61,7 @@ export class Client {
 
   public async create(request: FliptApi.FlagCreateRequest): Promise<FliptApi.flags.create.Response> {
     const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags/"),
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/flags"),
       method: "POST",
       headers: {
         Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
