@@ -6,9 +6,9 @@ import { FliptApi } from "@flipt-io/flipt";
 import * as core from "../../../core";
 
 export interface Request {
-  limit: number;
-  offset: number;
-  pageToken: string;
+  limit?: number;
+  offset?: number;
+  pageToken?: string;
 }
 
 export type Response = core.APIResponse<FliptApi.SegmentList, FliptApi.segments.list.Error>;

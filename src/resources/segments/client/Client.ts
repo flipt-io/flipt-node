@@ -22,9 +22,18 @@ export class Client {
 
   public async list(request: FliptApi.segments.list.Request): Promise<FliptApi.segments.list.Response> {
     const queryParameters = new URLSearchParams();
-    queryParameters.append("limit", request.limit.toString());
-    queryParameters.append("offset", request.offset.toString());
-    queryParameters.append("pageToken", request.pageToken);
+    if (request.limit != null) {
+      queryParameters.append("limit", request.limit.toString());
+    }
+
+    if (request.offset != null) {
+      queryParameters.append("offset", request.offset.toString());
+    }
+
+    if (request.pageToken != null) {
+      queryParameters.append("pageToken", request.pageToken);
+    }
+
     const response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Production, "/api/v1/segments"),
       method: "GET",

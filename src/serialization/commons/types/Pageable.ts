@@ -6,13 +6,13 @@ import { FliptApi } from "@flipt-io/flipt";
 import * as core from "../../../core";
 
 export const Pageable: core.schemas.ObjectSchema<Pageable.Raw, FliptApi.Pageable> = core.schemas.object({
-  nextPageToken: core.schemas.string(),
-  totalCount: core.schemas.number(),
+  nextPageToken: core.schemas.string().optional(),
+  totalCount: core.schemas.number().optional(),
 });
 
 export declare namespace Pageable {
   interface Raw {
-    nextPageToken: string;
-    totalCount: number;
+    nextPageToken?: string | null;
+    totalCount?: number | null;
   }
 }

@@ -3,6 +3,6 @@
  */
 
 export interface Pageable {
-  nextPageToken: string;
-  totalCount: number;
+  nextPageToken?: string;
+  totalCount?: number;
 }
