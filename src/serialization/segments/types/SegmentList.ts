@@ -6,14 +6,16 @@ import { FliptApi } from "@flipt-io/flipt";
 import * as core from "../../../core";
 import * as serializers from "../..";
 
-export const SegmentList: core.schemas.ObjectSchema<SegmentList.Raw, FliptApi.SegmentList> = core.schemas
-  .object({
-    segments: core.schemas.list(core.schemas.lazyObject(async () => (await import("../..")).Segment)),
-  })
-  .extend(core.schemas.lazyObject(async () => (await import("../..")).Pageable));
+export const SegmentList: core.schemas.ObjectSchema<SegmentList.Raw, FliptApi.SegmentList> = core.schemas.object({
+  segments: core.schemas.list(core.schemas.lazyObject(async () => (await import("../..")).Segment)),
+  nextPageToken: core.schemas.string(),
+  totalCount: core.schemas.number(),
+});
 
 export declare namespace SegmentList {
-  interface Raw extends serializers.Pageable.Raw {
+  interface Raw {
     segments: serializers.Segment.Raw[];
+    nextPageToken: string;
+    totalCount: number;
   }
 }

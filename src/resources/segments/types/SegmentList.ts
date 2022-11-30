@@ -4,6 +4,8 @@
 
 import { FliptApi } from "@flipt-io/flipt";
 
-export interface SegmentList extends FliptApi.Pageable {
+export interface SegmentList {
   segments: FliptApi.Segment[];
+  nextPageToken: string;
+  totalCount: number;
 }

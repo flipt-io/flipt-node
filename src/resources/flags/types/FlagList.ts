@@ -4,6 +4,8 @@
 
 import { FliptApi } from "@flipt-io/flipt";
 
-export interface FlagList extends FliptApi.Pageable {
+export interface FlagList {
   flags: FliptApi.Flag[];
+  nextPageToken: string;
+  totalCount: number;
 }
