@@ -4,14 +4,17 @@
 
 import { FliptApi } from "@flipt-io/flipt";
 import * as core from "../../../core";
+import * as serializers from "../..";
 
 export const AuthenticationToken: core.schemas.ObjectSchema<AuthenticationToken.Raw, FliptApi.AuthenticationToken> =
   core.schemas.object({
     clientToken: core.schemas.string(),
+    authentication: core.schemas.lazyObject(async () => (await import("../..")).Authentication),
   });
 
 export declare namespace AuthenticationToken {
   interface Raw {
     clientToken: string;
+    authentication: serializers.Authentication.Raw;
   }
 }

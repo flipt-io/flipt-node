@@ -70,34 +70,6 @@ export class Client {
     };
   }
 
-  public async createToken(
-    request: FliptApi.AuthenticationTokenCreateRequest
-  ): Promise<FliptApi.auth.createToken.Response> {
-    const response = await core.fetcher({
-      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/auth/v1/method/token"),
-      method: "POST",
-      headers: {
-        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
-      },
-      body: await serializers.AuthenticationTokenCreateRequest.json(request),
-    });
-    if (response.ok) {
-      return {
-        ok: true,
-        body: await serializers.AuthenticationToken.parse(response.body as serializers.AuthenticationToken.Raw),
-      };
-    }
-
-    return {
-      ok: false,
-      error: {
-        errorName: undefined,
-        content: response.error,
-        _visit: (visitor) => visitor._other(response.error),
-      },
-    };
-  }
-
   public async deleteToken(request: FliptApi.auth.deleteToken.Request): Promise<FliptApi.auth.deleteToken.Response> {
     const response = await core.fetcher({
       url: urlJoin(this.options.environment ?? environments.Environment.Production, `/auth/v1/tokens/${request.id}`),
@@ -135,6 +107,34 @@ export class Client {
       return {
         ok: true,
         body: await serializers.Authentication.parse(response.body as serializers.Authentication.Raw),
+      };
+    }
+
+    return {
+      ok: false,
+      error: {
+        errorName: undefined,
+        content: response.error,
+        _visit: (visitor) => visitor._other(response.error),
+      },
+    };
+  }
+
+  public async createToken(
+    request: FliptApi.AuthenticationTokenCreateRequest
+  ): Promise<FliptApi.auth.createToken.Response> {
+    const response = await core.fetcher({
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/auth/v1/method/token"),
+      method: "POST",
+      headers: {
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.auth?.token)),
+      },
+      body: await serializers.AuthenticationTokenCreateRequest.json(request),
+    });
+    if (response.ok) {
+      return {
+        ok: true,
+        body: await serializers.AuthenticationToken.parse(response.body as serializers.AuthenticationToken.Raw),
       };
     }
 
