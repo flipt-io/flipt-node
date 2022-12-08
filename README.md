@@ -2,11 +2,9 @@
 
 ## Documentation
 
-API documentation is available at <https://www.flipt.io/docs/api/latest/>.
+API documentation is available at <https://www.flipt.io/docs/reference/overview>.
 
 ## Usage
-
-<!-- [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-6l9jie?file=app.ts&view=editor) -->
 
 ```typescript
 const client = new FliptApiClient({
