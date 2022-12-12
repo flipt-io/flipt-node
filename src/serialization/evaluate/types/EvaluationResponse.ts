@@ -18,7 +18,7 @@ export const EvaluationResponse: core.schemas.ObjectSchema<EvaluationResponse.Ra
     value: core.schemas.string(),
     requestDurationMillis: core.schemas.number(),
     attachment: core.schemas.string(),
-    reasons: core.schemas.lazy(async () => (await import("../..")).EvaluationReason),
+    reason: core.schemas.lazy(async () => (await import("../..")).EvaluationReason),
   });
 
 export declare namespace EvaluationResponse {
@@ -33,6 +33,6 @@ export declare namespace EvaluationResponse {
     value: string;
     requestDurationMillis: number;
     attachment: string;
-    reasons: serializers.EvaluationReason.Raw;
+    reason: serializers.EvaluationReason.Raw;
   }
 }

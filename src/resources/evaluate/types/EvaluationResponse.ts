@@ -15,5 +15,5 @@ export interface EvaluationResponse {
   value: string;
   requestDurationMillis: number;
   attachment: string;
-  reasons: FliptApi.EvaluationReason;
+  reason: FliptApi.EvaluationReason;
 }
