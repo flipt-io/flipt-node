@@ -1,6 +1,7 @@
 # Flipt Node Library
 
-![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)
+[![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)](https://www.npmjs.com/package/@flipt-io/flipt)
+![status](https://img.shields.io/badge/status-beta-yellow)
 
 ## Documentation
 
@@ -15,8 +16,11 @@ npm i @flipt-io/flipt
 ## Usage
 
 ```typescript
+import { FliptApiClient } from '@flipt-io/flipt';
+import { v4 as uuidv4 } from 'uuid';
+
 const client = new FliptApiClient({
-  environment: Environment.Production,
+  environment: "http://localhost:8080",
   auth: {
     credentials: {
       username: "YOUR_USERNAME",
@@ -25,12 +29,11 @@ const client = new FliptApiClient({
   },
 });
 
-const response = await client.flags.create({
-  key: "abc123",
-  name: "my-flag-name",
-  description: "add to cart button as bright blue",
-  enabled: true,
-});
+const response = await client.evaluate.evaluate({
+  flagKey: "abc123",
+  entityId: uuidv4(),
+  context: {},
+})
 
 console.log("Received response from Flipt!", response);
 ```
