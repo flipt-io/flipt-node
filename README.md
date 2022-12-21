@@ -1,8 +1,16 @@
 # Flipt Node Library
 
+![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)
+
 ## Documentation
 
 API documentation is available at <https://www.flipt.io/docs/reference/overview>.
+
+## Install
+
+```
+npm i @flipt-io/flipt
+```
 
 ## Usage
 
