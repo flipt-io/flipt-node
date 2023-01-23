@@ -104,6 +104,32 @@ export class Client {
     };
   }
 
+  public async expireSelf(
+    request?: FliptApi.AuthenticationExpireSelfRequest
+  ): Promise<FliptApi.auth.expireSelf.Response> {
+    const _response = await core.fetcher({
+      url: urlJoin(this.options.environment ?? environments.Environment.Production, "/auth/v1/self/expire"),
+      method: "PUT",
+      headers: {
+        Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+      },
+      body: await serializers.auth.expireSelf.Request.json({
+        expiresAt: request?.expiresAt,
+      }),
+    });
+    if (_response.ok) {
+      return {
+        ok: true,
+        body: undefined,
+      };
+    }
+
+    return {
+      ok: false,
+      error: FliptApi.auth.expireSelf.Error._unknown(_response.error),
+    };
+  }
+
   public async createToken(
     request: FliptApi.AuthenticationTokenCreateRequest
   ): Promise<FliptApi.auth.createToken.Response> {
