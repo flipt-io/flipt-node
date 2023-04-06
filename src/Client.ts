@@ -4,70 +4,91 @@
 
 import * as environments from "./environments";
 import * as core from "./core";
-import { Client as AuthClient } from "./resources/auth/client/Client";
-import { Client as ConstraintsClient } from "./resources/constraints/client/Client";
-import { Client as DistributionsClient } from "./resources/distributions/client/Client";
-import { Client as EvaluateClient } from "./resources/evaluate/client/Client";
-import { Client as FlagsClient } from "./resources/flags/client/Client";
-import { Client as RulesClient } from "./resources/rules/client/Client";
-import { Client as SegmentsClient } from "./resources/segments/client/Client";
-import { Client as VariantsClient } from "./resources/variants/client/Client";
+import { AuthMethodK8S } from "./api/resources/authMethodK8S/client/Client";
+import { AuthMethodOidc } from "./api/resources/authMethodOidc/client/Client";
+import { AuthMethodToken } from "./api/resources/authMethodToken/client/Client";
+import { Auth } from "./api/resources/auth/client/Client";
+import { Constraints } from "./api/resources/constraints/client/Client";
+import { Distributions } from "./api/resources/distributions/client/Client";
+import { Evaluate } from "./api/resources/evaluate/client/Client";
+import { Flags } from "./api/resources/flags/client/Client";
+import { Rules } from "./api/resources/rules/client/Client";
+import { Segments } from "./api/resources/segments/client/Client";
+import { Variants } from "./api/resources/variants/client/Client";
 
 export declare namespace FliptApiClient {
-  interface Options {
-    environment?: environments.Environment | string;
-    token?: core.Supplier<core.BearerToken>;
-  }
+    interface Options {
+        environment?: environments.FliptApiEnvironment | string;
+        token?: core.Supplier<core.BearerToken | undefined>;
+    }
 }
 
 export class FliptApiClient {
-  constructor(private readonly options: FliptApiClient.Options) {}
+    constructor(private readonly options: FliptApiClient.Options) {}
 
-  #auth: AuthClient | undefined;
+    private _authMethodK8S: AuthMethodK8S | undefined;
 
-  public get auth(): AuthClient {
-    return (this.#auth ??= new AuthClient(this.options));
-  }
+    public get authMethodK8S(): AuthMethodK8S {
+        return (this._authMethodK8S ??= new AuthMethodK8S(this.options));
+    }
 
-  #constraints: ConstraintsClient | undefined;
+    private _authMethodOidc: AuthMethodOidc | undefined;
 
-  public get constraints(): ConstraintsClient {
-    return (this.#constraints ??= new ConstraintsClient(this.options));
-  }
+    public get authMethodOidc(): AuthMethodOidc {
+        return (this._authMethodOidc ??= new AuthMethodOidc(this.options));
+    }
 
-  #distributions: DistributionsClient | undefined;
+    private _authMethodToken: AuthMethodToken | undefined;
 
-  public get distributions(): DistributionsClient {
-    return (this.#distributions ??= new DistributionsClient(this.options));
-  }
+    public get authMethodToken(): AuthMethodToken {
+        return (this._authMethodToken ??= new AuthMethodToken(this.options));
+    }
 
-  #evaluate: EvaluateClient | undefined;
+    private _auth: Auth | undefined;
 
-  public get evaluate(): EvaluateClient {
-    return (this.#evaluate ??= new EvaluateClient(this.options));
-  }
+    public get auth(): Auth {
+        return (this._auth ??= new Auth(this.options));
+    }
 
-  #flags: FlagsClient | undefined;
+    private _constraints: Constraints | undefined;
 
-  public get flags(): FlagsClient {
-    return (this.#flags ??= new FlagsClient(this.options));
-  }
+    public get constraints(): Constraints {
+        return (this._constraints ??= new Constraints(this.options));
+    }
 
-  #rules: RulesClient | undefined;
+    private _distributions: Distributions | undefined;
 
-  public get rules(): RulesClient {
-    return (this.#rules ??= new RulesClient(this.options));
-  }
+    public get distributions(): Distributions {
+        return (this._distributions ??= new Distributions(this.options));
+    }
 
-  #segments: SegmentsClient | undefined;
+    private _evaluate: Evaluate | undefined;
 
-  public get segments(): SegmentsClient {
-    return (this.#segments ??= new SegmentsClient(this.options));
-  }
+    public get evaluate(): Evaluate {
+        return (this._evaluate ??= new Evaluate(this.options));
+    }
 
-  #variants: VariantsClient | undefined;
+    private _flags: Flags | undefined;
 
-  public get variants(): VariantsClient {
-    return (this.#variants ??= new VariantsClient(this.options));
-  }
+    public get flags(): Flags {
+        return (this._flags ??= new Flags(this.options));
+    }
+
+    private _rules: Rules | undefined;
+
+    public get rules(): Rules {
+        return (this._rules ??= new Rules(this.options));
+    }
+
+    private _segments: Segments | undefined;
+
+    public get segments(): Segments {
+        return (this._segments ??= new Segments(this.options));
+    }
+
+    private _variants: Variants | undefined;
+
+    public get variants(): Variants {
+        return (this._variants ??= new Variants(this.options));
+    }
 }
