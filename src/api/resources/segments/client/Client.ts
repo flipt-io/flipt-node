@@ -19,7 +19,7 @@ export declare namespace Segments {
 export class Segments {
     constructor(private readonly options: Segments.Options) {}
 
-    public async list(request: FliptApi.SegmentListRequest = {}): Promise<FliptApi.SegmentList> {
+    public async list(namespaceKey: string, request: FliptApi.SegmentListRequest = {}): Promise<FliptApi.SegmentList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
         if (limit != null) {
@@ -35,7 +35,10 @@ export class Segments {
         }
 
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/api/v1/segments"),
+            url: urlJoin(
+                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                `/api/v1/namespaces/${namespaceKey}/segments/`
+            ),
             method: "GET",
             headers: {
                 Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
@@ -70,9 +73,12 @@ export class Segments {
         }
     }
 
-    public async create(request: FliptApi.SegmentCreateRequest): Promise<FliptApi.Segment> {
+    public async create(namespaceKey: string, request: FliptApi.SegmentCreateRequest): Promise<FliptApi.Segment> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/api/v1/segments"),
+            url: urlJoin(
+                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                `/api/v1/namespaces/${namespaceKey}/segments/`
+            ),
             method: "POST",
             headers: {
                 Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
@@ -107,11 +113,11 @@ export class Segments {
         }
     }
 
-    public async get(key: string): Promise<FliptApi.Segment> {
+    public async get(namespaceKey: string, key: string): Promise<FliptApi.Segment> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/segments/${key}`
+                `/api/v1/namespaces/${namespaceKey}/segments//${key}`
             ),
             method: "GET",
             headers: {
@@ -146,11 +152,11 @@ export class Segments {
         }
     }
 
-    public async delete(key: string): Promise<void> {
+    public async delete(namespaceKey: string, key: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/segments/${key}`
+                `/api/v1/namespaces/${namespaceKey}/segments//${key}`
             ),
             method: "DELETE",
             headers: {
@@ -183,11 +189,15 @@ export class Segments {
         }
     }
 
-    public async update(key: string, request: FliptApi.SegmentUpdateRequest): Promise<FliptApi.Segment> {
+    public async update(
+        namespaceKey: string,
+        key: string,
+        request: FliptApi.SegmentUpdateRequest
+    ): Promise<FliptApi.Segment> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/segments/${key}`
+                `/api/v1/namespaces/${namespaceKey}/segments//${key}`
             ),
             method: "PUT",
             headers: {

@@ -19,7 +19,7 @@ export declare namespace Flags {
 export class Flags {
     constructor(private readonly options: Flags.Options) {}
 
-    public async list(request: FliptApi.FlagListRequest = {}): Promise<FliptApi.FlagList> {
+    public async list(namespaceKey: string, request: FliptApi.FlagListRequest = {}): Promise<FliptApi.FlagList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
         if (limit != null) {
@@ -35,7 +35,10 @@ export class Flags {
         }
 
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/api/v1/flags"),
+            url: urlJoin(
+                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                `/api/v1/namespaces/${namespaceKey}/flags/`
+            ),
             method: "GET",
             headers: {
                 Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
@@ -70,9 +73,12 @@ export class Flags {
         }
     }
 
-    public async create(request: FliptApi.FlagCreateRequest): Promise<FliptApi.Flag> {
+    public async create(namespaceKey: string, request: FliptApi.FlagCreateRequest): Promise<FliptApi.Flag> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/api/v1/flags"),
+            url: urlJoin(
+                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                `/api/v1/namespaces/${namespaceKey}/flags/`
+            ),
             method: "POST",
             headers: {
                 Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
@@ -107,11 +113,11 @@ export class Flags {
         }
     }
 
-    public async get(key: string): Promise<FliptApi.Flag> {
+    public async get(namespaceKey: string, key: string): Promise<FliptApi.Flag> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${key}`
+                `/api/v1/namespaces/${namespaceKey}/flags//${key}`
             ),
             method: "GET",
             headers: {
@@ -146,11 +152,11 @@ export class Flags {
         }
     }
 
-    public async delete(key: string): Promise<void> {
+    public async delete(namespaceKey: string, key: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${key}`
+                `/api/v1/namespaces/${namespaceKey}/flags//${key}`
             ),
             method: "DELETE",
             headers: {
@@ -183,11 +189,15 @@ export class Flags {
         }
     }
 
-    public async update(key: string, request: FliptApi.FlagUpdateRequest): Promise<FliptApi.Flag> {
+    public async update(
+        namespaceKey: string,
+        key: string,
+        request: FliptApi.FlagUpdateRequest
+    ): Promise<FliptApi.Flag> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${key}`
+                `/api/v1/namespaces/${namespaceKey}/flags//${key}`
             ),
             method: "PUT",
             headers: {

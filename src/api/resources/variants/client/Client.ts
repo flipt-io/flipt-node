@@ -19,11 +19,15 @@ export declare namespace Variants {
 export class Variants {
     constructor(private readonly options: Variants.Options) {}
 
-    public async create(flagKey: string, request: FliptApi.VariantCreateRequest): Promise<FliptApi.Variant> {
+    public async create(
+        namespaceKey: string,
+        flagKey: string,
+        request: FliptApi.VariantCreateRequest
+    ): Promise<FliptApi.Variant> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/variants/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants/`
             ),
             method: "POST",
             headers: {
@@ -59,11 +63,11 @@ export class Variants {
         }
     }
 
-    public async delete(flagKey: string, id: string): Promise<void> {
+    public async delete(namespaceKey: string, flagKey: string, id: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/variants//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants//${id}`
             ),
             method: "DELETE",
             headers: {
@@ -97,6 +101,7 @@ export class Variants {
     }
 
     public async update(
+        namespaceKey: string,
         flagKey: string,
         id: string,
         request: FliptApi.VariantUpdateRequest
@@ -104,7 +109,7 @@ export class Variants {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/variants//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants//${id}`
             ),
             method: "PUT",
             headers: {

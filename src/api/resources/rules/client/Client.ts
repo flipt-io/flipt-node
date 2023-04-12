@@ -19,7 +19,11 @@ export declare namespace Rules {
 export class Rules {
     constructor(private readonly options: Rules.Options) {}
 
-    public async list(flagKey: string, request: FliptApi.RuleListRequest = {}): Promise<FliptApi.RuleList> {
+    public async list(
+        namespaceKey: string,
+        flagKey: string,
+        request: FliptApi.RuleListRequest = {}
+    ): Promise<FliptApi.RuleList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
         if (limit != null) {
@@ -37,7 +41,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/`
             ),
             method: "GET",
             headers: {
@@ -73,11 +77,15 @@ export class Rules {
         }
     }
 
-    public async create(flagKey: string, request: FliptApi.RuleCreateRequest): Promise<FliptApi.Rule> {
+    public async create(
+        namespaceKey: string,
+        flagKey: string,
+        request: FliptApi.RuleCreateRequest
+    ): Promise<FliptApi.Rule> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/`
             ),
             method: "POST",
             headers: {
@@ -113,17 +121,17 @@ export class Rules {
         }
     }
 
-    public async order(flagKey: string, request: FliptApi.RuleOrder): Promise<void> {
+    public async order(namespaceKey: string, flagKey: string, request: FliptApi.RuleOrderRequest): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules//order`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//order`
             ),
             method: "PUT",
             headers: {
                 Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
-            body: await serializers.RuleOrder.jsonOrThrow(request),
+            body: await serializers.RuleOrderRequest.jsonOrThrow(request),
         });
         if (_response.ok) {
             return;
@@ -151,11 +159,11 @@ export class Rules {
         }
     }
 
-    public async get(flagKey: string, id: string): Promise<FliptApi.Rule> {
+    public async get(namespaceKey: string, flagKey: string, id: string): Promise<FliptApi.Rule> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//${id}`
             ),
             method: "GET",
             headers: {
@@ -190,11 +198,11 @@ export class Rules {
         }
     }
 
-    public async delete(flagKey: string, id: string): Promise<void> {
+    public async delete(namespaceKey: string, flagKey: string, id: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//${id}`
             ),
             method: "DELETE",
             headers: {
@@ -227,11 +235,16 @@ export class Rules {
         }
     }
 
-    public async update(flagKey: string, id: string, request: FliptApi.RuleUpdateRequest): Promise<void> {
+    public async update(
+        namespaceKey: string,
+        flagKey: string,
+        id: string,
+        request: FliptApi.RuleUpdateRequest
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//${id}`
             ),
             method: "PUT",
             headers: {

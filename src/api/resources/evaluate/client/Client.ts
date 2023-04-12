@@ -19,9 +19,15 @@ export declare namespace Evaluate {
 export class Evaluate {
     constructor(private readonly options: Evaluate.Options) {}
 
-    public async evaluate(request: FliptApi.EvaluationRequest): Promise<FliptApi.EvaluationResponse> {
+    public async evaluate(
+        namespaceKey: string,
+        request: FliptApi.EvaluationRequest
+    ): Promise<FliptApi.EvaluationResponse> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/api/v1/evaluate"),
+            url: urlJoin(
+                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                `/api/v1/namespaces/${namespaceKey}/evaluate`
+            ),
             method: "POST",
             headers: {
                 Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
@@ -57,11 +63,14 @@ export class Evaluate {
         }
     }
 
-    public async batchEvaluate(request: FliptApi.BatchEvaluationRequest): Promise<FliptApi.BatchEvaluationResponse> {
+    public async batchEvaluate(
+        namespaceKey: string,
+        request: FliptApi.BatchEvaluationRequest
+    ): Promise<FliptApi.BatchEvaluationResponse> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                "/api/v1/batch-evaluate"
+                `/api/v1/namespaces/${namespaceKey}/batch-evaluate`
             ),
             method: "POST",
             headers: {

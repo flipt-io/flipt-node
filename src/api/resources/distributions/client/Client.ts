@@ -20,6 +20,7 @@ export class Distributions {
     constructor(private readonly options: Distributions.Options) {}
 
     public async create(
+        namespaceKey: string,
         flagKey: string,
         ruleId: string,
         request: FliptApi.DistributionCreateRequest
@@ -27,7 +28,7 @@ export class Distributions {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules/${ruleId}/distributions/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions/`
             ),
             method: "POST",
             headers: {
@@ -64,6 +65,7 @@ export class Distributions {
     }
 
     public async delete(
+        namespaceKey: string,
         flagKey: string,
         ruleId: string,
         id: string,
@@ -75,7 +77,7 @@ export class Distributions {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules/${ruleId}/distributions//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions//${id}`
             ),
             method: "DELETE",
             headers: {
@@ -110,6 +112,7 @@ export class Distributions {
     }
 
     public async update(
+        namespaceKey: string,
         flagKey: string,
         ruleId: string,
         id: string,
@@ -118,7 +121,7 @@ export class Distributions {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/flags/${flagKey}/rules/${ruleId}/distributions//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions//${id}`
             ),
             method: "PUT",
             headers: {
