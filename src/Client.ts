@@ -12,6 +12,7 @@ import { Constraints } from "./api/resources/constraints/client/Client";
 import { Distributions } from "./api/resources/distributions/client/Client";
 import { Evaluate } from "./api/resources/evaluate/client/Client";
 import { Flags } from "./api/resources/flags/client/Client";
+import { Namespaces } from "./api/resources/namespaces/client/Client";
 import { Rules } from "./api/resources/rules/client/Client";
 import { Segments } from "./api/resources/segments/client/Client";
 import { Variants } from "./api/resources/variants/client/Client";
@@ -72,6 +73,12 @@ export class FliptApiClient {
 
     public get flags(): Flags {
         return (this._flags ??= new Flags(this.options));
+    }
+
+    private _namespaces: Namespaces | undefined;
+
+    public get namespaces(): Namespaces {
+        return (this._namespaces ??= new Namespaces(this.options));
     }
 
     private _rules: Rules | undefined;

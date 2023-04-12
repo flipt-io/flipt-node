@@ -12,6 +12,8 @@ export * as evaluate from "./evaluate";
 export * from "./evaluate/types";
 export * as flags from "./flags";
 export * from "./flags/types";
+export * as namespaces from "./namespaces";
+export * from "./namespaces/types";
 export * as rules from "./rules";
 export * from "./rules/types";
 export * as segments from "./segments";
