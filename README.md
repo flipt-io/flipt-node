@@ -43,7 +43,7 @@ const client = new FliptApiClient({
   },
 });
 
-const response = await client.evaluate.evaluate(DEFAULT_NAMEPSACE, {
+const response = await client.evaluate.evaluate(DEFAULT_NAMESPACE, {
   flagKey: "abc123",
   entityId: uuidv4(),
   context: {},
