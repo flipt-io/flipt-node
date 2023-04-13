@@ -7,6 +7,13 @@
 
 API documentation is available at <https://www.flipt.io/docs/reference/overview>.
 
+
+## Breaking Changes
+
+Version [0.2.2](https://github.com/flipt-io/flipt-node/releases/tag/0.2.2) of this client introduced a breaking change as it requires the passing of `namespace` parameter to all methods that require it. This is to support the new namespace functionality added to [Flipt v1.20.0](https://www.flipt.io/docs/reference/overview#v1-20-0).
+
+If you are running an older version of Flipt server (< v1.20.0), you should use a pre 0.2.2 version of this client.
+
 ## Install
 
 ```
@@ -17,6 +24,7 @@ npm i @flipt-io/flipt
 
 ```typescript
 import { FliptApiClient } from '@flipt-io/flipt';
+import { DEFAULT_NAMESPACE } from '@flipt-io/flipt/constants';
 import { v4 as uuidv4 } from 'uuid';
 
 const client = new FliptApiClient({
@@ -29,11 +37,11 @@ const client = new FliptApiClient({
   },
 });
 
-const response = await client.evaluate.evaluate({
+const response = await client.evaluate.evaluate(DEFAULT_NAMEPSACE, {
   flagKey: "abc123",
   entityId: uuidv4(),
   context: {},
-})
+});
 
 console.log("Received response from Flipt!", response);
 ```
