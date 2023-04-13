@@ -1,22 +1,36 @@
 # Flipt Node Library
 
 [![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)](https://www.npmjs.com/package/@flipt-io/flipt)
-![status](https://img.shields.io/badge/status-beta-yellow)
+![status](https://img.shields.io/badge/status-hardening-orange)
 
 ## Documentation
 
 API documentation is available at <https://www.flipt.io/docs/reference/overview>.
 
+## Status
+
+This SDK is considered in 'hardening' status. We will try to minimize breaking changes, however there still may be breaking changes between versions without a major version update.
+
+We recommend pinning the package version to a specific version in your `package.json` file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
+
+
+## Breaking Changes
+
+Version [0.2.2](https://github.com/flipt-io/flipt-node/releases/tag/0.2.2) of this client introduced a breaking change as it requires the passing of `namespace` parameter to all methods that require it. This is to support the new namespace functionality added to [Flipt v1.20.0](https://www.flipt.io/docs/reference/overview#v1-20-0).
+
+If you are running an older version of Flipt server (< v1.20.0), you should use a pre 0.2.2 version of this client.
+
 ## Install
 
 ```
-npm i @flipt-io/flipt
+npm i @flipt-io/flipt@{version}
 ```
 
 ## Usage
 
 ```typescript
 import { FliptApiClient } from '@flipt-io/flipt';
+import { DEFAULT_NAMESPACE } from '@flipt-io/flipt/constants';
 import { v4 as uuidv4 } from 'uuid';
 
 const client = new FliptApiClient({
@@ -29,11 +43,11 @@ const client = new FliptApiClient({
   },
 });
 
-const response = await client.evaluate.evaluate({
+const response = await client.evaluate.evaluate(DEFAULT_NAMESPACE, {
   flagKey: "abc123",
   entityId: uuidv4(),
   context: {},
-})
+});
 
 console.log("Received response from Flipt!", response);
 ```
