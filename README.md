@@ -1,11 +1,17 @@
 # Flipt Node Library
 
 [![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)](https://www.npmjs.com/package/@flipt-io/flipt)
-![status](https://img.shields.io/badge/status-beta-yellow)
+![status](https://img.shields.io/badge/status-hardening-orange)
 
 ## Documentation
 
 API documentation is available at <https://www.flipt.io/docs/reference/overview>.
+
+## Status
+
+This SDK is considered in 'hardening' status. We will try to minimize breaking changes, however there still may be breaking changes between versions without a major version update.
+
+We recommend pinning the package version to a specific version in your `package.json` file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
 
 
 ## Breaking Changes
@@ -17,7 +23,7 @@ If you are running an older version of Flipt server (< v1.20.0), you should use 
 ## Install
 
 ```
-npm i @flipt-io/flipt
+npm i @flipt-io/flipt@{version}
 ```
 
 ## Usage
