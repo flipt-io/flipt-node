@@ -11,7 +11,7 @@ export const BatchEvaluationResponse: core.serialization.ObjectSchema<
     FliptApi.BatchEvaluationResponse
 > = core.serialization.object({
     requestId: core.serialization.string(),
-    response: core.serialization.list(
+    responses: core.serialization.list(
         core.serialization.lazyObject(async () => (await import("../../..")).EvaluationResponse)
     ),
     requestDurationMillis: core.serialization.number(),
@@ -20,7 +20,7 @@ export const BatchEvaluationResponse: core.serialization.ObjectSchema<
 export declare namespace BatchEvaluationResponse {
     interface Raw {
         requestId: string;
-        response: serializers.EvaluationResponse.Raw[];
+        responses: serializers.EvaluationResponse.Raw[];
         requestDurationMillis: number;
     }
 }

@@ -6,6 +6,6 @@ import { FliptApi } from "@flipt-io/flipt";
 
 export interface BatchEvaluationResponse {
     requestId: string;
-    response: FliptApi.EvaluationResponse[];
+    responses: FliptApi.EvaluationResponse[];
     requestDurationMillis: number;
 }
