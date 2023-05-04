@@ -18,7 +18,7 @@ We recommend pinning the package version to a specific version in your `package.
 
 Version [0.2.2](https://github.com/flipt-io/flipt-node/releases/tag/0.2.2) of this client introduced a breaking change as it requires the passing of `namespace` parameter to all methods that require it. This is to support the new namespace functionality added to [Flipt v1.20.0](https://www.flipt.io/docs/reference/overview#v1-20-0).
 
-If you are running an older version of Flipt server (< v1.20.0), you should use a pre 0.2.2 version of this client.
+:warning: If you are running an older version of Flipt server (< [v1.20.0](https://github.com/flipt-io/flipt/releases/tag/v1.20.0)), you should use a pre 0.2.2 version of this client.
 
 ## Install
 
