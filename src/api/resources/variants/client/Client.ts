@@ -27,7 +27,7 @@ export class Variants {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants`
             ),
             method: "POST",
             headers: {
@@ -67,7 +67,7 @@ export class Variants {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants/${id}`
             ),
             method: "DELETE",
             headers: {
@@ -109,7 +109,7 @@ export class Variants {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/variants/${id}`
             ),
             method: "PUT",
             headers: {

@@ -28,7 +28,7 @@ export class Distributions {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions`
             ),
             method: "POST",
             headers: {
@@ -77,7 +77,7 @@ export class Distributions {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions/${id}`
             ),
             method: "DELETE",
             headers: {
@@ -121,7 +121,7 @@ export class Distributions {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions/${id}`
             ),
             method: "PUT",
             headers: {

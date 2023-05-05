@@ -27,7 +27,7 @@ export class Constraints {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments/${segmentKey}/constraints/`
+                `/api/v1/namespaces/${namespaceKey}/segments/${segmentKey}/constraints`
             ),
             method: "POST",
             headers: {
@@ -67,7 +67,7 @@ export class Constraints {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments/${segmentKey}/constraints//${id}`
+                `/api/v1/namespaces/${namespaceKey}/segments/${segmentKey}/constraints/${id}`
             ),
             method: "DELETE",
             headers: {
@@ -109,7 +109,7 @@ export class Constraints {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments/${segmentKey}/constraints//${id}`
+                `/api/v1/namespaces/${namespaceKey}/segments/${segmentKey}/constraints/${id}`
             ),
             method: "PUT",
             headers: {

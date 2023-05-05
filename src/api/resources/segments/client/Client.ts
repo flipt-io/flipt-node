@@ -37,7 +37,7 @@ export class Segments {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments/`
+                `/api/v1/namespaces/${namespaceKey}/segments`
             ),
             method: "GET",
             headers: {
@@ -77,7 +77,7 @@ export class Segments {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments/`
+                `/api/v1/namespaces/${namespaceKey}/segments`
             ),
             method: "POST",
             headers: {
@@ -117,7 +117,7 @@ export class Segments {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments//${key}`
+                `/api/v1/namespaces/${namespaceKey}/segments/${key}`
             ),
             method: "GET",
             headers: {
@@ -156,7 +156,7 @@ export class Segments {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments//${key}`
+                `/api/v1/namespaces/${namespaceKey}/segments/${key}`
             ),
             method: "DELETE",
             headers: {
@@ -197,7 +197,7 @@ export class Segments {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/segments//${key}`
+                `/api/v1/namespaces/${namespaceKey}/segments/${key}`
             ),
             method: "PUT",
             headers: {

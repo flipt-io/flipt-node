@@ -41,7 +41,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules`
             ),
             method: "GET",
             headers: {
@@ -85,7 +85,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules`
             ),
             method: "POST",
             headers: {
@@ -125,7 +125,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//order`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/order`
             ),
             method: "PUT",
             headers: {
@@ -163,7 +163,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${id}`
             ),
             method: "GET",
             headers: {
@@ -202,7 +202,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${id}`
             ),
             method: "DELETE",
             headers: {
@@ -244,7 +244,7 @@ export class Rules {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules//${id}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${id}`
             ),
             method: "PUT",
             headers: {

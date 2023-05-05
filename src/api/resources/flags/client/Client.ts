@@ -37,7 +37,7 @@ export class Flags {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/`
+                `/api/v1/namespaces/${namespaceKey}/flags`
             ),
             method: "GET",
             headers: {
@@ -77,7 +77,7 @@ export class Flags {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags/`
+                `/api/v1/namespaces/${namespaceKey}/flags`
             ),
             method: "POST",
             headers: {
@@ -117,7 +117,7 @@ export class Flags {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags//${key}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${key}`
             ),
             method: "GET",
             headers: {
@@ -156,7 +156,7 @@ export class Flags {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags//${key}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${key}`
             ),
             method: "DELETE",
             headers: {
@@ -197,7 +197,7 @@ export class Flags {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment ?? environments.FliptApiEnvironment.Production,
-                `/api/v1/namespaces/${namespaceKey}/flags//${key}`
+                `/api/v1/namespaces/${namespaceKey}/flags/${key}`
             ),
             method: "PUT",
             headers: {
