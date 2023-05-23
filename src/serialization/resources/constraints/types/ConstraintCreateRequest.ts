@@ -14,6 +14,7 @@ export const ConstraintCreateRequest: core.serialization.ObjectSchema<
     property: core.serialization.string(),
     operator: core.serialization.string(),
     value: core.serialization.string().optional(),
+    description: core.serialization.string().optional(),
 });
 
 export declare namespace ConstraintCreateRequest {
@@ -22,5 +23,6 @@ export declare namespace ConstraintCreateRequest {
         property: string;
         operator: string;
         value?: string | null;
+        description?: string | null;
     }
 }

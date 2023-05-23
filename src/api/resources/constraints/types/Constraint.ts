@@ -11,6 +11,7 @@ export interface Constraint {
     property: string;
     operator: string;
     value: string;
+    description: string;
     createdAt: Date;
     updatedAt: Date;
 }

@@ -14,6 +14,7 @@ export const ConstraintComparisonType: core.serialization.Schema<
     "STRING_COMPARISON_TYPE",
     "NUMBER_COMPARISON_TYPE",
     "BOOLEAN_COMPARISON_TYPE",
+    "DATETIME_COMPARISON_TYPE",
 ]);
 
 export declare namespace ConstraintComparisonType {
@@ -21,5 +22,6 @@ export declare namespace ConstraintComparisonType {
         | "UNKNOWN_COMPARISON_TYPE"
         | "STRING_COMPARISON_TYPE"
         | "NUMBER_COMPARISON_TYPE"
-        | "BOOLEAN_COMPARISON_TYPE";
+        | "BOOLEAN_COMPARISON_TYPE"
+        | "DATETIME_COMPARISON_TYPE";
 }

@@ -14,6 +14,7 @@ export const Constraint: core.serialization.ObjectSchema<serializers.Constraint.
         property: core.serialization.string(),
         operator: core.serialization.string(),
         value: core.serialization.string(),
+        description: core.serialization.string(),
         createdAt: core.serialization.date(),
         updatedAt: core.serialization.date(),
     });
@@ -26,6 +27,7 @@ export declare namespace Constraint {
         property: string;
         operator: string;
         value: string;
+        description: string;
         createdAt: string;
         updatedAt: string;
     }

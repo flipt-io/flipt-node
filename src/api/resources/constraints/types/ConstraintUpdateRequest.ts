@@ -9,4 +9,5 @@ export interface ConstraintUpdateRequest {
     property: string;
     operator: string;
     value?: string;
+    description?: string;
 }
