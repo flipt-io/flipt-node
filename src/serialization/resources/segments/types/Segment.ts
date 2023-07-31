@@ -8,6 +8,7 @@ import * as core from "../../../../core";
 
 export const Segment: core.serialization.ObjectSchema<serializers.Segment.Raw, FliptApi.Segment> =
     core.serialization.object({
+        namespaceKey: core.serialization.string(),
         key: core.serialization.string(),
         name: core.serialization.string(),
         description: core.serialization.string(),
@@ -21,6 +22,7 @@ export const Segment: core.serialization.ObjectSchema<serializers.Segment.Raw, F
 
 export declare namespace Segment {
     interface Raw {
+        namespaceKey: string;
         key: string;
         name: string;
         description: string;

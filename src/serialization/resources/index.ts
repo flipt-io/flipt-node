@@ -1,3 +1,4 @@
+export * as evaluation from "./evaluation";
 export * as authMethodOidc from "./authMethodOidc";
 export * from "./authMethodOidc/types";
 export * as auth from "./auth";
@@ -14,6 +15,8 @@ export * as flags from "./flags";
 export * from "./flags/types";
 export * as namespaces from "./namespaces";
 export * from "./namespaces/types";
+export * as rollouts from "./rollouts";
+export * from "./rollouts/types";
 export * as rules from "./rules";
 export * from "./rules/types";
 export * as segments from "./segments";

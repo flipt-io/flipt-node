@@ -4,6 +4,7 @@
 
 export interface Variant {
     id: string;
+    namespaceKey: string;
     flagKey: string;
     key: string;
     name: string;

@@ -5,6 +5,7 @@
 import { FliptApi } from "@flipt-io/flipt";
 
 export interface Segment {
+    namespaceKey: string;
     key: string;
     name: string;
     description: string;

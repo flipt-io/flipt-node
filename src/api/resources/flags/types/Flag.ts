@@ -5,6 +5,7 @@
 import { FliptApi } from "@flipt-io/flipt";
 
 export interface Flag {
+    namespaceKey: string;
     key: string;
     name: string;
     description: string;
@@ -12,4 +13,5 @@ export interface Flag {
     createdAt: Date;
     updatedAt: Date;
     variants: FliptApi.Variant[];
+    type: FliptApi.FlagType;
 }

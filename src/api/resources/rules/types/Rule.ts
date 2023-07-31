@@ -6,6 +6,7 @@ import { FliptApi } from "@flipt-io/flipt";
 
 export interface Rule {
     id: string;
+    namespaceKey: string;
     flagKey: string;
     segmentKey: string;
     distributions: FliptApi.Distribution[];

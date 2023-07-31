@@ -6,6 +6,7 @@ import { FliptApi } from "@flipt-io/flipt";
 
 export interface Constraint {
     id: string;
+    namespaceKey: string;
     segmentKey: string;
     type: FliptApi.ConstraintComparisonType;
     property: string;

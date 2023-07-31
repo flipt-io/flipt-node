@@ -14,6 +14,7 @@ export const FlagCreateRequest: core.serialization.ObjectSchema<
     name: core.serialization.string(),
     description: core.serialization.string().optional(),
     enabled: core.serialization.boolean().optional(),
+    type: core.serialization.lazy(async () => (await import("../../..")).FlagType),
 });
 
 export declare namespace FlagCreateRequest {
@@ -22,5 +23,6 @@ export declare namespace FlagCreateRequest {
         name: string;
         description?: string | null;
         enabled?: boolean | null;
+        type: serializers.FlagType.Raw;
     }
 }

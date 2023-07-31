@@ -7,6 +7,7 @@ import { FliptApi } from "@flipt-io/flipt";
 import * as core from "../../../../core";
 
 export const Flag: core.serialization.ObjectSchema<serializers.Flag.Raw, FliptApi.Flag> = core.serialization.object({
+    namespaceKey: core.serialization.string(),
     key: core.serialization.string(),
     name: core.serialization.string(),
     description: core.serialization.string(),
@@ -14,10 +15,12 @@ export const Flag: core.serialization.ObjectSchema<serializers.Flag.Raw, FliptAp
     createdAt: core.serialization.date(),
     updatedAt: core.serialization.date(),
     variants: core.serialization.list(core.serialization.lazyObject(async () => (await import("../../..")).Variant)),
+    type: core.serialization.lazy(async () => (await import("../../..")).FlagType),
 });
 
 export declare namespace Flag {
     interface Raw {
+        namespaceKey: string;
         key: string;
         name: string;
         description: string;
@@ -25,5 +28,6 @@ export declare namespace Flag {
         createdAt: string;
         updatedAt: string;
         variants: serializers.Variant.Raw[];
+        type: serializers.FlagType.Raw;
     }
 }

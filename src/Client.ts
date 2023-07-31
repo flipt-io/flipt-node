@@ -4,6 +4,7 @@
 
 import * as environments from "./environments";
 import * as core from "./core";
+import { Evaluation } from "./api/resources/evaluation/client/Client";
 import { AuthMethodK8S } from "./api/resources/authMethodK8S/client/Client";
 import { AuthMethodOidc } from "./api/resources/authMethodOidc/client/Client";
 import { AuthMethodToken } from "./api/resources/authMethodToken/client/Client";
@@ -13,6 +14,7 @@ import { Distributions } from "./api/resources/distributions/client/Client";
 import { Evaluate } from "./api/resources/evaluate/client/Client";
 import { Flags } from "./api/resources/flags/client/Client";
 import { Namespaces } from "./api/resources/namespaces/client/Client";
+import { Rollouts } from "./api/resources/rollouts/client/Client";
 import { Rules } from "./api/resources/rules/client/Client";
 import { Segments } from "./api/resources/segments/client/Client";
 import { Variants } from "./api/resources/variants/client/Client";
@@ -26,6 +28,12 @@ export declare namespace FliptApiClient {
 
 export class FliptApiClient {
     constructor(private readonly options: FliptApiClient.Options) {}
+
+    private _evaluation: Evaluation | undefined;
+
+    public get evaluation(): Evaluation {
+        return (this._evaluation ??= new Evaluation(this.options));
+    }
 
     private _authMethodK8S: AuthMethodK8S | undefined;
 
@@ -79,6 +87,12 @@ export class FliptApiClient {
 
     public get namespaces(): Namespaces {
         return (this._namespaces ??= new Namespaces(this.options));
+    }
+
+    private _rollouts: Rollouts | undefined;
+
+    public get rollouts(): Rollouts {
+        return (this._rollouts ??= new Rollouts(this.options));
     }
 
     private _rules: Rules | undefined;

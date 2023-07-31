@@ -8,6 +8,7 @@ import * as core from "../../../../core";
 
 export const Rule: core.serialization.ObjectSchema<serializers.Rule.Raw, FliptApi.Rule> = core.serialization.object({
     id: core.serialization.string(),
+    namespaceKey: core.serialization.string(),
     flagKey: core.serialization.string(),
     segmentKey: core.serialization.string(),
     distributions: core.serialization.list(
@@ -21,6 +22,7 @@ export const Rule: core.serialization.ObjectSchema<serializers.Rule.Raw, FliptAp
 export declare namespace Rule {
     interface Raw {
         id: string;
+        namespaceKey: string;
         flagKey: string;
         segmentKey: string;
         distributions: serializers.Distribution.Raw[];
