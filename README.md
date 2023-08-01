@@ -13,7 +13,6 @@ This SDK is considered in 'hardening' status. We will try to minimize breaking c
 
 We recommend pinning the package version to a specific version in your `package.json` file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
 
-
 ## Breaking Changes
 
 Version [0.2.2](https://github.com/flipt-io/flipt-node/releases/tag/0.2.2) of this client introduced a breaking change as it requires the passing of `namespace` parameter to all methods that require it. This is to support the new namespace functionality added to [Flipt v1.20.0](https://www.flipt.io/docs/reference/overview#v1-20-0).
@@ -42,8 +41,19 @@ const client = new FliptApiClient({
     },
   },
 });
+```
 
-const response = await client.evaluate.evaluate(DEFAULT_NAMESPACE, {
+### Evaluation
+
+In [v1.24.0](https://github.com/flipt-io/flipt/releases/tag/v1.24.0) of Flipt server, we added a new set of Evaluation API endpoints to allow evaluating of both boolean and multivariate flags. This SDK supports both sets of evaluation APIs (old and new) as of [v0.2.7](https://github.com/flipt-io/flipt-node/releases/tag/0.2.7).
+
+The previous API endpoints at `/api/v1/evaluate` have been deprecated and may be removed in a future release. We recommend using the new Evaluation API at `/evaluate/v1/` for all new projects.
+
+For more information on the new Evaluation API, please see the [API documentation](https://www.flipt.io/docs/reference/overview#v1-24-0) or blog post on [Flipt v1.24.0](https://www.flipt.io/blog/boolean-flags-and-rollouts).
+
+```typescript
+const response = await client.evaluation.variant({
+  namespaceKey: DEFAULT_NAMESPACE,
   flagKey: "abc123",
   entityId: uuidv4(),
   context: {},
