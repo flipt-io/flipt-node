@@ -1,6 +1,10 @@
 # Specify files that shouldn't be modified by Fern
 
 README.md
+CHANGELOG.md
 .github
 src/constants.ts
 LICENSE
+.gitignore
+.release-please-manifest.json
+release-please-config.json
