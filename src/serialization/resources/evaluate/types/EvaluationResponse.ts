@@ -21,6 +21,7 @@ export const EvaluationResponse: core.serialization.ObjectSchema<
     requestDurationMillis: core.serialization.number(),
     attachment: core.serialization.string(),
     reason: core.serialization.lazy(async () => (await import("../../..")).EvaluationReason),
+    segmentKeys: core.serialization.string().optional(),
 });
 
 export declare namespace EvaluationResponse {
@@ -36,5 +37,6 @@ export declare namespace EvaluationResponse {
         requestDurationMillis: number;
         attachment: string;
         reason: serializers.EvaluationReason.Raw;
+        segmentKeys?: string | null;
     }
 }
