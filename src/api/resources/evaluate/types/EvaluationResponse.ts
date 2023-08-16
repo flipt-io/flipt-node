@@ -16,4 +16,5 @@ export interface EvaluationResponse {
     requestDurationMillis: number;
     attachment: string;
     reason: FliptApi.EvaluationReason;
+    segmentKeys?: string;
 }

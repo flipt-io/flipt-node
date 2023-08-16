@@ -11,12 +11,16 @@ export const RuleCreateRequest: core.serialization.ObjectSchema<
     FliptApi.RuleCreateRequest
 > = core.serialization.object({
     segmentKey: core.serialization.string(),
+    segmentKeys: core.serialization.list(core.serialization.string()).optional(),
+    segmentOperator: core.serialization.lazy(async () => (await import("../../..")).RuleSegmentOperator).optional(),
     rank: core.serialization.number(),
 });
 
 export declare namespace RuleCreateRequest {
     interface Raw {
         segmentKey: string;
+        segmentKeys?: string[] | null;
+        segmentOperator?: serializers.RuleSegmentOperator.Raw | null;
         rank: number;
     }
 }

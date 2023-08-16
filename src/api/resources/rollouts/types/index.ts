@@ -1,5 +1,6 @@
 export * from "./RolloutList";
 export * from "./Rollout";
+export * from "./RolloutSegmentOperator";
 export * from "./RolloutType";
 export * from "./RolloutSegment";
 export * from "./RolloutThreshold";
