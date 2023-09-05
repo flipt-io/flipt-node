@@ -4,6 +4,7 @@ README.md
 CHANGELOG.md
 .github
 src/constants.ts
+src/datadogRUM.ts
 LICENSE
 .gitignore
 .release-please-manifest.json
