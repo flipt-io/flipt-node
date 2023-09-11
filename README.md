@@ -62,6 +62,51 @@ const response = await client.evaluation.variant({
 console.log("Received response from Flipt!", response);
 ```
 
+### Metrics
+
+There is support for [Datadog RUM](https://docs.datadoghq.com/real_user_monitoring/) through this client. This allows you to track the values of feature flag evaluation and how it relates to active browser sessions.
+
+To start tracking feature flags on Datadog:
+
+```typescript
+import { datadogRum } from '@datadog/browser-rum';
+import { FliptApiClientWithMetrics } from '@flipt-io/flipt/metrics';
+
+datadogRum.init({
+  applicationId: '<APPLICATION_ID>',
+  clientToken: '<CLIENT_TOKEN>',
+  site: 'datadoghq.com',
+  service:'<SERVICE_NAME>',
+  env:'<ENV_NAME>',
+  enableExperimentalFeatures: ["feature_flags"],
+  sessionSampleRate:100,
+  sessionReplaySampleRate: 20,
+  trackUserInteractions: true,
+  trackResources: true,
+  trackLongTasks: true,
+  defaultPrivacyLevel:'mask-user-input'
+});
+  
+datadogRum.startSessionReplayRecording();
+
+const metricsClient = new FliptApiClientWithMetrics(new FliptApiClient({
+  environment: "http://localhost:8080",
+  auth: {
+    credentials: {
+      username: "YOUR_USERNAME",
+      password: "YOUR_PASSWORD",
+    },
+  },
+}).evaluation, datadogRum);
+
+const response = await metricsClient.variant({
+  namespaceKey: "default",
+  flagKey: "hello-this",
+  entityId: uuidv4(),
+  context: {},
+});
+```
+
 ## Beta status
 
 This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning the package version to a specific version in your package.json file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
