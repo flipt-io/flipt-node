@@ -3,7 +3,7 @@
  */
 
 import * as serializers from "../../..";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../../../api";
 import * as core from "../../../../core";
 
 export const EvaluationResponse: core.serialization.ObjectSchema<
@@ -12,7 +12,7 @@ export const EvaluationResponse: core.serialization.ObjectSchema<
 > = core.serialization.object({
     requestId: core.serialization.string(),
     entityId: core.serialization.string(),
-    requestContext: core.serialization.record(core.serialization.string(), core.serialization.string().optional()),
+    requestContext: core.serialization.record(core.serialization.string(), core.serialization.string()),
     match: core.serialization.boolean(),
     flagKey: core.serialization.string(),
     segmentKey: core.serialization.string(),
@@ -28,7 +28,7 @@ export declare namespace EvaluationResponse {
     interface Raw {
         requestId: string;
         entityId: string;
-        requestContext: Record<string, string | null | undefined>;
+        requestContext: Record<string, string>;
         match: boolean;
         flagKey: string;
         segmentKey: string;

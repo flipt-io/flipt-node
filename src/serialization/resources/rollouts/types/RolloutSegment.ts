@@ -3,7 +3,7 @@
  */
 
 import * as serializers from "../../..";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../../../api";
 import * as core from "../../../../core";
 
 export const RolloutSegment: core.serialization.ObjectSchema<serializers.RolloutSegment.Raw, FliptApi.RolloutSegment> =

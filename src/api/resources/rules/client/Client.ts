@@ -4,25 +4,31 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../..";
+import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
 
 export declare namespace Rules {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Rules {
-    constructor(private readonly options: Rules.Options) {}
+    constructor(protected readonly _options: Rules.Options) {}
 
     public async list(
         namespaceKey: string,
         flagKey: string,
-        request: FliptApi.RuleListRequest = {}
+        request: FliptApi.RuleListRequest = {},
+        requestOptions?: Rules.RequestOptions
     ): Promise<FliptApi.RuleList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
@@ -40,18 +46,26 @@ export class Rules {
 
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.RuleList.parseOrThrow(_response.body as serializers.RuleList.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.RuleList.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -80,22 +94,31 @@ export class Rules {
     public async create(
         namespaceKey: string,
         flagKey: string,
-        request: FliptApi.RuleCreateRequest
+        request: FliptApi.RuleCreateRequest,
+        requestOptions?: Rules.RequestOptions
     ): Promise<FliptApi.Rule> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules`
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.RuleCreateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RuleCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Rule.parseOrThrow(_response.body as serializers.Rule.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Rule.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -121,17 +144,27 @@ export class Rules {
         }
     }
 
-    public async order(namespaceKey: string, flagKey: string, request: FliptApi.RuleOrderRequest): Promise<void> {
+    public async order(
+        namespaceKey: string,
+        flagKey: string,
+        request: FliptApi.RuleOrderRequest,
+        requestOptions?: Rules.RequestOptions
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/order`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.RuleOrderRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RuleOrderRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -159,20 +192,33 @@ export class Rules {
         }
     }
 
-    public async get(namespaceKey: string, flagKey: string, id: string): Promise<FliptApi.Rule> {
+    public async get(
+        namespaceKey: string,
+        flagKey: string,
+        id: string,
+        requestOptions?: Rules.RequestOptions
+    ): Promise<FliptApi.Rule> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${id}`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Rule.parseOrThrow(_response.body as serializers.Rule.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Rule.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -198,16 +244,26 @@ export class Rules {
         }
     }
 
-    public async delete(namespaceKey: string, flagKey: string, id: string): Promise<void> {
+    public async delete(
+        namespaceKey: string,
+        flagKey: string,
+        id: string,
+        requestOptions?: Rules.RequestOptions
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${id}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -239,18 +295,24 @@ export class Rules {
         namespaceKey: string,
         flagKey: string,
         id: string,
-        request: FliptApi.RuleUpdateRequest
+        request: FliptApi.RuleUpdateRequest,
+        requestOptions?: Rules.RequestOptions
     ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${id}`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.RuleUpdateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RuleUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -276,5 +338,14 @@ export class Rules {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

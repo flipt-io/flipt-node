@@ -4,44 +4,57 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../..";
+import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
 
 export declare namespace AuthMethodOidc {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class AuthMethodOidc {
-    constructor(private readonly options: AuthMethodOidc.Options) {}
+    constructor(protected readonly _options: AuthMethodOidc.Options) {}
 
     public async authorizeUrl(
         provider: string,
-        request: FliptApi.OidcAuthorizeUrlRequest
+        request: FliptApi.OidcAuthorizeUrlRequest,
+        requestOptions?: AuthMethodOidc.RequestOptions
     ): Promise<FliptApi.OidcAuthorizeUrlResponse> {
         const { state } = request;
         const _queryParams = new URLSearchParams();
         _queryParams.append("state", state);
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/auth/v1/method/oidc/${provider}/authorize`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.OidcAuthorizeUrlResponse.parseOrThrow(
-                _response.body as serializers.OidcAuthorizeUrlResponse.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.OidcAuthorizeUrlResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -68,7 +81,8 @@ export class AuthMethodOidc {
 
     public async callback(
         provider: string,
-        request: FliptApi.OidcCallbackRequest
+        request: FliptApi.OidcCallbackRequest,
+        requestOptions?: AuthMethodOidc.RequestOptions
     ): Promise<FliptApi.OidcCallbackResponse> {
         const { code, state } = request;
         const _queryParams = new URLSearchParams();
@@ -76,20 +90,27 @@ export class AuthMethodOidc {
         _queryParams.append("state", state);
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/auth/v1/method/oidc/${provider}/callback`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.OidcCallbackResponse.parseOrThrow(
-                _response.body as serializers.OidcCallbackResponse.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.OidcCallbackResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -112,5 +133,14 @@ export class AuthMethodOidc {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

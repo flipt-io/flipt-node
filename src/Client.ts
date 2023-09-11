@@ -21,95 +21,99 @@ import { Variants } from "./api/resources/variants/client/Client";
 
 export declare namespace FliptApiClient {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class FliptApiClient {
-    constructor(private readonly options: FliptApiClient.Options) {}
+    constructor(protected readonly _options: FliptApiClient.Options) {}
 
-    private _evaluation: Evaluation | undefined;
+    protected _evaluation: Evaluation | undefined;
 
     public get evaluation(): Evaluation {
-        return (this._evaluation ??= new Evaluation(this.options));
+        return (this._evaluation ??= new Evaluation(this._options));
     }
 
-    private _authMethodK8S: AuthMethodK8S | undefined;
+    protected _authMethodK8S: AuthMethodK8S | undefined;
 
     public get authMethodK8S(): AuthMethodK8S {
-        return (this._authMethodK8S ??= new AuthMethodK8S(this.options));
+        return (this._authMethodK8S ??= new AuthMethodK8S(this._options));
     }
 
-    private _authMethodOidc: AuthMethodOidc | undefined;
+    protected _authMethodOidc: AuthMethodOidc | undefined;
 
     public get authMethodOidc(): AuthMethodOidc {
-        return (this._authMethodOidc ??= new AuthMethodOidc(this.options));
+        return (this._authMethodOidc ??= new AuthMethodOidc(this._options));
     }
 
-    private _authMethodToken: AuthMethodToken | undefined;
+    protected _authMethodToken: AuthMethodToken | undefined;
 
     public get authMethodToken(): AuthMethodToken {
-        return (this._authMethodToken ??= new AuthMethodToken(this.options));
+        return (this._authMethodToken ??= new AuthMethodToken(this._options));
     }
 
-    private _auth: Auth | undefined;
+    protected _auth: Auth | undefined;
 
     public get auth(): Auth {
-        return (this._auth ??= new Auth(this.options));
+        return (this._auth ??= new Auth(this._options));
     }
 
-    private _constraints: Constraints | undefined;
+    protected _constraints: Constraints | undefined;
 
     public get constraints(): Constraints {
-        return (this._constraints ??= new Constraints(this.options));
+        return (this._constraints ??= new Constraints(this._options));
     }
 
-    private _distributions: Distributions | undefined;
+    protected _distributions: Distributions | undefined;
 
     public get distributions(): Distributions {
-        return (this._distributions ??= new Distributions(this.options));
+        return (this._distributions ??= new Distributions(this._options));
     }
 
-    private _evaluate: Evaluate | undefined;
+    protected _evaluate: Evaluate | undefined;
 
     public get evaluate(): Evaluate {
-        return (this._evaluate ??= new Evaluate(this.options));
+        return (this._evaluate ??= new Evaluate(this._options));
     }
 
-    private _flags: Flags | undefined;
+    protected _flags: Flags | undefined;
 
     public get flags(): Flags {
-        return (this._flags ??= new Flags(this.options));
+        return (this._flags ??= new Flags(this._options));
     }
 
-    private _namespaces: Namespaces | undefined;
+    protected _namespaces: Namespaces | undefined;
 
     public get namespaces(): Namespaces {
-        return (this._namespaces ??= new Namespaces(this.options));
+        return (this._namespaces ??= new Namespaces(this._options));
     }
 
-    private _rollouts: Rollouts | undefined;
+    protected _rollouts: Rollouts | undefined;
 
     public get rollouts(): Rollouts {
-        return (this._rollouts ??= new Rollouts(this.options));
+        return (this._rollouts ??= new Rollouts(this._options));
     }
 
-    private _rules: Rules | undefined;
+    protected _rules: Rules | undefined;
 
     public get rules(): Rules {
-        return (this._rules ??= new Rules(this.options));
+        return (this._rules ??= new Rules(this._options));
     }
 
-    private _segments: Segments | undefined;
+    protected _segments: Segments | undefined;
 
     public get segments(): Segments {
-        return (this._segments ??= new Segments(this.options));
+        return (this._segments ??= new Segments(this._options));
     }
 
-    private _variants: Variants | undefined;
+    protected _variants: Variants | undefined;
 
     public get variants(): Variants {
-        return (this._variants ??= new Variants(this.options));
+        return (this._variants ??= new Variants(this._options));
     }
 }

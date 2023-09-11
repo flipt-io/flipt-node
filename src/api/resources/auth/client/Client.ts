@@ -4,34 +4,48 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../..";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
 
 export declare namespace Auth {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Auth {
-    constructor(private readonly options: Auth.Options) {}
+    constructor(protected readonly _options: Auth.Options) {}
 
-    public async listTokens(): Promise<FliptApi.AuthenticationList> {
+    public async listTokens(requestOptions?: Auth.RequestOptions): Promise<FliptApi.AuthenticationList> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/auth/v1/tokens"),
+            url: urlJoin(
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
+                "/auth/v1/tokens"
+            ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.AuthenticationList.parseOrThrow(
-                _response.body as serializers.AuthenticationList.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.AuthenticationList.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -56,20 +70,28 @@ export class Auth {
         }
     }
 
-    public async getToken(id: string): Promise<FliptApi.Authentication> {
+    public async getToken(id: string, requestOptions?: Auth.RequestOptions): Promise<FliptApi.Authentication> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/auth/v1/tokens/${id}`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Authentication.parseOrThrow(_response.body as serializers.Authentication.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Authentication.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -95,16 +117,21 @@ export class Auth {
         }
     }
 
-    public async deleteToken(id: string): Promise<void> {
+    public async deleteToken(id: string, requestOptions?: Auth.RequestOptions): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/auth/v1/tokens/${id}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -132,17 +159,28 @@ export class Auth {
         }
     }
 
-    public async getSelf(): Promise<FliptApi.Authentication> {
+    public async getSelf(requestOptions?: Auth.RequestOptions): Promise<FliptApi.Authentication> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/auth/v1/self"),
+            url: urlJoin(
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
+                "/auth/v1/self"
+            ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Authentication.parseOrThrow(_response.body as serializers.Authentication.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Authentication.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -168,17 +206,27 @@ export class Auth {
         }
     }
 
-    public async expireSelf(request: FliptApi.AuthenticationExpireSelfRequest = {}): Promise<void> {
+    public async expireSelf(
+        request: FliptApi.AuthenticationExpireSelfRequest = {},
+        requestOptions?: Auth.RequestOptions
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 "/auth/v1/self/expire"
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.AuthenticationExpireSelfRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.AuthenticationExpireSelfRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -204,5 +252,14 @@ export class Auth {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

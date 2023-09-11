@@ -4,41 +4,55 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
-import urlJoin from "url-join";
+import * as FliptApi from "../../..";
 import * as serializers from "../../../../serialization";
+import urlJoin from "url-join";
 import * as errors from "../../../../errors";
+import { default as URLSearchParams } from "@ungap/url-search-params";
 
 export declare namespace Distributions {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Distributions {
-    constructor(private readonly options: Distributions.Options) {}
+    constructor(protected readonly _options: Distributions.Options) {}
 
     public async create(
         namespaceKey: string,
         flagKey: string,
         ruleId: string,
-        request: FliptApi.DistributionCreateRequest
+        request: FliptApi.DistributionCreateRequest,
+        requestOptions?: Distributions.RequestOptions
     ): Promise<FliptApi.Distribution> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions`
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.DistributionCreateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.DistributionCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Distribution.parseOrThrow(_response.body as serializers.Distribution.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Distribution.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -69,21 +83,27 @@ export class Distributions {
         flagKey: string,
         ruleId: string,
         id: string,
-        request: FliptApi.DistributionDeleteRequest
+        request: FliptApi.DistributionDeleteRequest,
+        requestOptions?: Distributions.RequestOptions
     ): Promise<void> {
         const { variantId } = request;
         const _queryParams = new URLSearchParams();
         _queryParams.append("variantId", variantId);
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions/${id}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -116,22 +136,31 @@ export class Distributions {
         flagKey: string,
         ruleId: string,
         id: string,
-        request: FliptApi.DistributionUpdateRequest
+        request: FliptApi.DistributionUpdateRequest,
+        requestOptions?: Distributions.RequestOptions
     ): Promise<FliptApi.Distribution> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rules/${ruleId}/distributions/${id}`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.DistributionUpdateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.DistributionUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Distribution.parseOrThrow(_response.body as serializers.Distribution.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Distribution.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -155,5 +184,14 @@ export class Distributions {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

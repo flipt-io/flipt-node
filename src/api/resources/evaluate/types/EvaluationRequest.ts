@@ -6,5 +6,5 @@ export interface EvaluationRequest {
     requestId?: string;
     flagKey: string;
     entityId: string;
-    context: Record<string, string | undefined>;
+    context: Record<string, string>;
 }

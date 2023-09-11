@@ -4,40 +4,54 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
-import urlJoin from "url-join";
+import * as FliptApi from "../../..";
 import * as serializers from "../../../../serialization";
+import urlJoin from "url-join";
 import * as errors from "../../../../errors";
 
 export declare namespace AuthMethodToken {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class AuthMethodToken {
-    constructor(private readonly options: AuthMethodToken.Options) {}
+    constructor(protected readonly _options: AuthMethodToken.Options) {}
 
     public async createToken(
-        request: FliptApi.AuthenticationTokenCreateRequest
+        request: FliptApi.AuthenticationTokenCreateRequest,
+        requestOptions?: AuthMethodToken.RequestOptions
     ): Promise<FliptApi.AuthenticationToken> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 "/auth/v1/method/token"
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.AuthenticationTokenCreateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.AuthenticationTokenCreateRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.AuthenticationToken.parseOrThrow(
-                _response.body as serializers.AuthenticationToken.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.AuthenticationToken.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -60,5 +74,14 @@ export class AuthMethodToken {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }
