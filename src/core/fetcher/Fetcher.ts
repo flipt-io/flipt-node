@@ -1,17 +1,22 @@
-import axios, { AxiosError } from "axios";
+import { default as URLSearchParams } from "@ungap/url-search-params";
+import axios, { AxiosAdapter, AxiosError } from "axios";
 import { APIResponse } from "./APIResponse";
 
-export type FetchFunction = (args: Fetcher.Args) => Promise<APIResponse<unknown, Fetcher.Error>>;
+export type FetchFunction = <R = unknown>(args: Fetcher.Args) => Promise<APIResponse<R, Fetcher.Error>>;
 
 export declare namespace Fetcher {
     export interface Args {
         url: string;
         method: string;
+        contentType?: string;
         headers?: Record<string, string | undefined>;
         queryParameters?: URLSearchParams;
         body?: unknown;
         timeoutMs?: number;
         withCredentials?: boolean;
+        responseType?: "json" | "blob";
+        adapter?: AxiosAdapter;
+        onUploadProgress?: (event: ProgressEvent) => void;
     }
 
     export type Error = FailedStatusCodeError | NonJsonError | TimeoutError | UnknownError;
@@ -38,10 +43,11 @@ export declare namespace Fetcher {
     }
 }
 
-export const fetcher: FetchFunction = async (args) => {
-    const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-    };
+async function fetcherImpl<R = unknown>(args: Fetcher.Args): Promise<APIResponse<R, Fetcher.Error>> {
+    const headers: Record<string, string> = {};
+    if (args.body !== undefined && args.contentType != null) {
+        headers["Content-Type"] = args.contentType;
+    }
 
     if (args.headers != null) {
         for (const [key, value] of Object.entries(args.headers)) {
@@ -60,15 +66,22 @@ export const fetcher: FetchFunction = async (args) => {
             data: args.body,
             validateStatus: () => true,
             transformResponse: (response) => response,
-            timeout: args.timeoutMs ?? 60_000,
+            timeout: args.timeoutMs,
             transitional: {
                 clarifyTimeoutError: true,
             },
             withCredentials: args.withCredentials,
+            adapter: args.adapter,
+            onUploadProgress: args.onUploadProgress,
+            maxBodyLength: Infinity,
+            maxContentLength: Infinity,
+            responseType: args.responseType ?? "json",
         });
 
         let body: unknown;
-        if (response.data != null && response.data.length > 0) {
+        if (args.responseType === "blob") {
+            body = response.data;
+        } else if (response.data != null && response.data.length > 0) {
             try {
                 body = JSON.parse(response.data) ?? undefined;
             } catch {
@@ -83,10 +96,10 @@ export const fetcher: FetchFunction = async (args) => {
             }
         }
 
-        if (response.status >= 200 && response.status < 300) {
+        if (response.status >= 200 && response.status < 400) {
             return {
                 ok: true,
-                body,
+                body: body as R,
             };
         } else {
             return {
@@ -116,4 +129,6 @@ export const fetcher: FetchFunction = async (args) => {
             },
         };
     }
-};
+}
+
+export const fetcher: FetchFunction = fetcherImpl;

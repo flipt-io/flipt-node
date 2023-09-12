@@ -4,25 +4,31 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../..";
+import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
 
 export declare namespace Rollouts {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Rollouts {
-    constructor(private readonly options: Rollouts.Options) {}
+    constructor(protected readonly _options: Rollouts.Options) {}
 
     public async list(
         namespaceKey: string,
         flagKey: string,
-        request: FliptApi.RolloutListRequest = {}
+        request: FliptApi.RolloutListRequest = {},
+        requestOptions?: Rollouts.RequestOptions
     ): Promise<FliptApi.RolloutList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
@@ -40,18 +46,26 @@ export class Rollouts {
 
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rollouts`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.RolloutList.parseOrThrow(_response.body as serializers.RolloutList.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.RolloutList.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -80,22 +94,31 @@ export class Rollouts {
     public async create(
         namespaceKey: string,
         flagKey: string,
-        request: FliptApi.RolloutCreateRequest
+        request: FliptApi.RolloutCreateRequest,
+        requestOptions?: Rollouts.RequestOptions
     ): Promise<FliptApi.Rollout> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rollouts`
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.RolloutCreateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RolloutCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Rollout.parseOrThrow(_response.body as serializers.Rollout.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Rollout.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -121,17 +144,27 @@ export class Rollouts {
         }
     }
 
-    public async order(namespaceKey: string, flagKey: string, request: FliptApi.RolloutOrderRequest): Promise<void> {
+    public async order(
+        namespaceKey: string,
+        flagKey: string,
+        request: FliptApi.RolloutOrderRequest,
+        requestOptions?: Rollouts.RequestOptions
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rollouts/order`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.RolloutOrderRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RolloutOrderRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -159,20 +192,33 @@ export class Rollouts {
         }
     }
 
-    public async get(namespaceKey: string, flagKey: string, id: string): Promise<FliptApi.Rollout> {
+    public async get(
+        namespaceKey: string,
+        flagKey: string,
+        id: string,
+        requestOptions?: Rollouts.RequestOptions
+    ): Promise<FliptApi.Rollout> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rollouts/${id}`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Rollout.parseOrThrow(_response.body as serializers.Rollout.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Rollout.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -198,16 +244,26 @@ export class Rollouts {
         }
     }
 
-    public async delete(namespaceKey: string, flagKey: string, id: string): Promise<void> {
+    public async delete(
+        namespaceKey: string,
+        flagKey: string,
+        id: string,
+        requestOptions?: Rollouts.RequestOptions
+    ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rollouts/${id}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -239,18 +295,24 @@ export class Rollouts {
         namespaceKey: string,
         flagKey: string,
         id: string,
-        request: FliptApi.RolloutUpdateRequest
+        request: FliptApi.RolloutUpdateRequest,
+        requestOptions?: Rollouts.RequestOptions
     ): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${flagKey}/rollouts/${id}`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.RolloutUpdateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.RolloutUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -276,5 +338,14 @@ export class Rollouts {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

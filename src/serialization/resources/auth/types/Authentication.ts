@@ -3,7 +3,7 @@
  */
 
 import * as serializers from "../../..";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../../../api";
 import * as core from "../../../../core";
 
 export const Authentication: core.serialization.ObjectSchema<serializers.Authentication.Raw, FliptApi.Authentication> =
@@ -13,7 +13,7 @@ export const Authentication: core.serialization.ObjectSchema<serializers.Authent
         createdAt: core.serialization.date(),
         updatedAt: core.serialization.date(),
         expiresAt: core.serialization.date().optional(),
-        metadata: core.serialization.record(core.serialization.string(), core.serialization.string().optional()),
+        metadata: core.serialization.record(core.serialization.string(), core.serialization.string()),
     });
 
 export declare namespace Authentication {
@@ -23,6 +23,6 @@ export declare namespace Authentication {
         createdAt: string;
         updatedAt: string;
         expiresAt?: string | null;
-        metadata: Record<string, string | null | undefined>;
+        metadata: Record<string, string>;
     }
 }

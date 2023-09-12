@@ -4,22 +4,31 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../..";
+import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
 
 export declare namespace Flags {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Flags {
-    constructor(private readonly options: Flags.Options) {}
+    constructor(protected readonly _options: Flags.Options) {}
 
-    public async list(namespaceKey: string, request: FliptApi.FlagListRequest = {}): Promise<FliptApi.FlagList> {
+    public async list(
+        namespaceKey: string,
+        request: FliptApi.FlagListRequest = {},
+        requestOptions?: Flags.RequestOptions
+    ): Promise<FliptApi.FlagList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
         if (limit != null) {
@@ -36,18 +45,26 @@ export class Flags {
 
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.FlagList.parseOrThrow(_response.body as serializers.FlagList.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.FlagList.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -73,21 +90,33 @@ export class Flags {
         }
     }
 
-    public async create(namespaceKey: string, request: FliptApi.FlagCreateRequest): Promise<FliptApi.Flag> {
+    public async create(
+        namespaceKey: string,
+        request: FliptApi.FlagCreateRequest,
+        requestOptions?: Flags.RequestOptions
+    ): Promise<FliptApi.Flag> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags`
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.FlagCreateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.FlagCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Flag.parseOrThrow(_response.body as serializers.Flag.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Flag.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -113,20 +142,28 @@ export class Flags {
         }
     }
 
-    public async get(namespaceKey: string, key: string): Promise<FliptApi.Flag> {
+    public async get(namespaceKey: string, key: string, requestOptions?: Flags.RequestOptions): Promise<FliptApi.Flag> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${key}`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Flag.parseOrThrow(_response.body as serializers.Flag.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Flag.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -152,16 +189,21 @@ export class Flags {
         }
     }
 
-    public async delete(namespaceKey: string, key: string): Promise<void> {
+    public async delete(namespaceKey: string, key: string, requestOptions?: Flags.RequestOptions): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${key}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -192,22 +234,31 @@ export class Flags {
     public async update(
         namespaceKey: string,
         key: string,
-        request: FliptApi.FlagUpdateRequest
+        request: FliptApi.FlagUpdateRequest,
+        requestOptions?: Flags.RequestOptions
     ): Promise<FliptApi.Flag> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/flags/${key}`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.FlagUpdateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.FlagUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Flag.parseOrThrow(_response.body as serializers.Flag.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Flag.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -231,5 +282,14 @@ export class Flags {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

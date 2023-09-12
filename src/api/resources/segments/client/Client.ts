@@ -4,22 +4,31 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../..";
+import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
 
 export declare namespace Segments {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Segments {
-    constructor(private readonly options: Segments.Options) {}
+    constructor(protected readonly _options: Segments.Options) {}
 
-    public async list(namespaceKey: string, request: FliptApi.SegmentListRequest = {}): Promise<FliptApi.SegmentList> {
+    public async list(
+        namespaceKey: string,
+        request: FliptApi.SegmentListRequest = {},
+        requestOptions?: Segments.RequestOptions
+    ): Promise<FliptApi.SegmentList> {
         const { limit, offset, pageToken } = request;
         const _queryParams = new URLSearchParams();
         if (limit != null) {
@@ -36,18 +45,26 @@ export class Segments {
 
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/segments`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
             queryParameters: _queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.SegmentList.parseOrThrow(_response.body as serializers.SegmentList.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.SegmentList.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -73,21 +90,33 @@ export class Segments {
         }
     }
 
-    public async create(namespaceKey: string, request: FliptApi.SegmentCreateRequest): Promise<FliptApi.Segment> {
+    public async create(
+        namespaceKey: string,
+        request: FliptApi.SegmentCreateRequest,
+        requestOptions?: Segments.RequestOptions
+    ): Promise<FliptApi.Segment> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/segments`
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.SegmentCreateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.SegmentCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Segment.parseOrThrow(_response.body as serializers.Segment.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Segment.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -113,20 +142,32 @@ export class Segments {
         }
     }
 
-    public async get(namespaceKey: string, key: string): Promise<FliptApi.Segment> {
+    public async get(
+        namespaceKey: string,
+        key: string,
+        requestOptions?: Segments.RequestOptions
+    ): Promise<FliptApi.Segment> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/segments/${key}`
             ),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Segment.parseOrThrow(_response.body as serializers.Segment.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Segment.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -152,16 +193,21 @@ export class Segments {
         }
     }
 
-    public async delete(namespaceKey: string, key: string): Promise<void> {
+    public async delete(namespaceKey: string, key: string, requestOptions?: Segments.RequestOptions): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/segments/${key}`
             ),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
+            contentType: "application/json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
             return;
@@ -192,22 +238,31 @@ export class Segments {
     public async update(
         namespaceKey: string,
         key: string,
-        request: FliptApi.SegmentUpdateRequest
+        request: FliptApi.SegmentUpdateRequest,
+        requestOptions?: Segments.RequestOptions
     ): Promise<FliptApi.Segment> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 `/api/v1/namespaces/${namespaceKey}/segments/${key}`
             ),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.SegmentUpdateRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.SegmentUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.Segment.parseOrThrow(_response.body as serializers.Segment.Raw, {
-                allowUnknownKeys: true,
+            return await serializers.Segment.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
             });
         }
 
@@ -231,5 +286,14 @@ export class Segments {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

@@ -26,6 +26,7 @@ export const SchemaType = {
     RECORD: "record",
     SET: "set",
     UNION: "union",
+    UNDISCRIMINATED_UNION: "undiscriminatedUnion",
     OPTIONAL: "optional",
 } as const;
 export type SchemaType = typeof SchemaType[keyof typeof SchemaType];
@@ -49,7 +50,44 @@ export interface ValidationError {
 
 export interface SchemaOptions {
     /**
+     * how to handle unrecognized keys in objects
+     *
+     * @default "fail"
+     */
+    unrecognizedObjectKeys?: "fail" | "passthrough" | "strip";
+
+    /**
+     * whether to fail when an unrecognized discriminant value is
+     * encountered in a union
+     *
      * @default false
      */
-    allowUnknownKeys?: boolean;
+    allowUnrecognizedUnionMembers?: boolean;
+
+    /**
+     * whether to fail when an unrecognized enum value is encountered
+     *
+     * @default false
+     */
+    allowUnrecognizedEnumValues?: boolean;
+
+    /**
+     * whether to allow data that doesn't conform to the schema.
+     * invalid data is passed through without transformation.
+     *
+     * when this is enabled, .parse() and .json() will always
+     * return `ok: true`. `.parseOrThrow()` and `.jsonOrThrow()`
+     * will never fail.
+     *
+     * @default false
+     */
+    skipValidation?: boolean;
+
+    /**
+     * each validation failure contains a "path" property, which is
+     * the breadcrumbs to the offending node in the JSON. you can supply
+     * a prefix that is prepended to all the errors' paths. this can be
+     * helpful for zurg's internal debug logging.
+     */
+    breadcrumbsPrefix?: string[];
 }

@@ -4,40 +4,54 @@
 
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { FliptApi } from "@flipt-io/flipt";
-import urlJoin from "url-join";
+import * as FliptApi from "../../..";
 import * as serializers from "../../../../serialization";
+import urlJoin from "url-join";
 import * as errors from "../../../../errors";
 
 export declare namespace Evaluation {
     interface Options {
-        environment?: environments.FliptApiEnvironment | string;
+        environment?: core.Supplier<environments.FliptApiEnvironment | string>;
         token?: core.Supplier<core.BearerToken | undefined>;
+    }
+
+    interface RequestOptions {
+        timeoutInSeconds?: number;
     }
 }
 
 export class Evaluation {
-    constructor(private readonly options: Evaluation.Options) {}
+    constructor(protected readonly _options: Evaluation.Options) {}
 
     public async boolean(
-        request: FliptApi.evaluation.EvaluationRequest
+        request: FliptApi.evaluation.EvaluationRequest,
+        requestOptions?: Evaluation.RequestOptions
     ): Promise<FliptApi.evaluation.BooleanEvaluationResponse> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 "/evaluate/v1/boolean"
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.evaluation.BooleanEvaluationResponse.parseOrThrow(
-                _response.body as serializers.evaluation.BooleanEvaluationResponse.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.evaluation.BooleanEvaluationResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -63,24 +77,34 @@ export class Evaluation {
     }
 
     public async variant(
-        request: FliptApi.evaluation.EvaluationRequest
+        request: FliptApi.evaluation.EvaluationRequest,
+        requestOptions?: Evaluation.RequestOptions
     ): Promise<FliptApi.evaluation.VariantEvaluationResponse> {
         const _response = await core.fetcher({
             url: urlJoin(
-                this.options.environment ?? environments.FliptApiEnvironment.Production,
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
                 "/evaluate/v1/variant"
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.evaluation.VariantEvaluationResponse.parseOrThrow(
-                _response.body as serializers.evaluation.VariantEvaluationResponse.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.evaluation.VariantEvaluationResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -106,21 +130,34 @@ export class Evaluation {
     }
 
     public async batch(
-        request: FliptApi.evaluation.BatchEvaluationRequest
+        request: FliptApi.evaluation.BatchEvaluationRequest,
+        requestOptions?: Evaluation.RequestOptions
     ): Promise<FliptApi.evaluation.BatchEvaluationResponse> {
         const _response = await core.fetcher({
-            url: urlJoin(this.options.environment ?? environments.FliptApiEnvironment.Production, "/evaluate/v1/batch"),
+            url: urlJoin(
+                (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
+                "/evaluate/v1/batch"
+            ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@flipt-io/flipt",
+                "X-Fern-SDK-Version": "0.2.11",
             },
-            body: await serializers.evaluation.BatchEvaluationRequest.jsonOrThrow(request),
+            contentType: "application/json",
+            body: await serializers.evaluation.BatchEvaluationRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
         });
         if (_response.ok) {
-            return await serializers.evaluation.BatchEvaluationResponse.parseOrThrow(
-                _response.body as serializers.evaluation.BatchEvaluationResponse.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.evaluation.BatchEvaluationResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                breadcrumbsPrefix: ["response"],
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -143,5 +180,14 @@ export class Evaluation {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    protected async _getAuthorizationHeader() {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

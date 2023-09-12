@@ -3,7 +3,7 @@
  */
 
 import * as serializers from "../../..";
-import { FliptApi } from "@flipt-io/flipt";
+import * as FliptApi from "../../../../api";
 import * as core from "../../../../core";
 
 export const EvaluationRequest: core.serialization.ObjectSchema<
@@ -13,7 +13,7 @@ export const EvaluationRequest: core.serialization.ObjectSchema<
     requestId: core.serialization.string().optional(),
     flagKey: core.serialization.string(),
     entityId: core.serialization.string(),
-    context: core.serialization.record(core.serialization.string(), core.serialization.string().optional()),
+    context: core.serialization.record(core.serialization.string(), core.serialization.string()),
 });
 
 export declare namespace EvaluationRequest {
@@ -21,6 +21,6 @@ export declare namespace EvaluationRequest {
         requestId?: string | null;
         flagKey: string;
         entityId: string;
-        context: Record<string, string | null | undefined>;
+        context: Record<string, string>;
     }
 }
