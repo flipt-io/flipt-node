@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.11](https://github.com/flipt-io/flipt-node/compare/0.2.10...0.2.11) (2023-09-12)
+
+
+### Features
+
+* **datadog:** Add DD RUM to flipt-node client ([0e72a57](https://github.com/flipt-io/flipt-node/commit/0e72a57b8d089fa5e2b606704ba345e67c517d01))
+
 ## [0.2.10](https://github.com/flipt-io/flipt-node/compare/0.2.8...0.2.10) (2023-08-16)
 
 
