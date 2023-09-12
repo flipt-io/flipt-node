@@ -89,7 +89,7 @@ datadogRum.init({
   
 datadogRum.startSessionReplayRecording();
 
-const metricsClient = new FliptApiClientWithMetrics(new FliptApiClient({
+const metricsClient = new FliptMetrics(new FliptApiClient({
   environment: "http://localhost:8080",
   auth: {
     credentials: {
