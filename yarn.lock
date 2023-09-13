@@ -2,25 +2,25 @@
 # yarn lockfile v1
 
 
-"@datadog/browser-core@4.48.2":
-  version "4.48.2"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.48.2.tgz#6606878660a2dad528a7c5c4aa5465169cb2c33a"
-  integrity sha512-ewQDLouh9jymJPTRq5M8Hz0FFzMaVlJCwHHY5gMUmGyIaBEzS8wd3AeZ56kQ32ZOcyz83au1/yZ/zcIB8LDoyA==
+"@datadog/browser-core@4.49.0":
+  version "4.49.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.49.0.tgz#583295079408893bc9eb601e05ef524f446949cb"
+  integrity sha512-qTPODRwGJG5eJLYKJ8X18es3zSF0htQhqpoyg3MehGsGfqJofDrDCP45ZfUf2Wk7K2JB2Oo2LvsfUJN0Mg51+g==
 
-"@datadog/browser-rum-core@4.48.2":
-  version "4.48.2"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.48.2.tgz#4fc13aedc6170d51c3c024327da27af937fd0186"
-  integrity sha512-LUlaYAC7MGXZbIPT6LvSVxaZBG0irer+meQp1LfJBdSy/lLb4OrNowrc9dcHeh4Fw9rNNLWl2Pz+4dBqRtR87g==
+"@datadog/browser-rum-core@4.49.0":
+  version "4.49.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.49.0.tgz#75fd2675df29d6aa2593fde6cc003187289497bd"
+  integrity sha512-Cy7nGLJOWCGuT5CEW0q1thgOVtZGaQ/36cnr10vMCgPnuKCbyro5hTV2AZsPXkocZWs/CCvUSldmO0rF2oR4vg==
   dependencies:
-    "@datadog/browser-core" "4.48.2"
+    "@datadog/browser-core" "4.49.0"
 
 "@datadog/browser-rum@^4.48.1":
-  version "4.48.2"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.48.2.tgz#95ab72a0fd6b9f82b69cca6a351d9a91bcd8d5da"
-  integrity sha512-SGxjKJLUJq8AjWedhHTQicIr4rvAcDMwBr6gHvZr3h9llCBpDxPzd/RPKCK69HMxBGt/Cw7KCpjAjy9IaCURWQ==
+  version "4.49.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.49.0.tgz#3b68438dc804f07011e2bfcb63cdcd1ec34d1f4b"
+  integrity sha512-RRN4YA3rB43bhADKwEuG2bMyJE5jyiNO/VJc1D6DZFAHoq63R2ogyXpA9ihMhbD/7ZEpV57QA7wRsCOcrgKKKA==
   dependencies:
-    "@datadog/browser-core" "4.48.2"
-    "@datadog/browser-rum-core" "4.48.2"
+    "@datadog/browser-core" "4.49.0"
+    "@datadog/browser-rum-core" "4.49.0"
 
 "@types/node@17.0.33":
   version "17.0.33"
