@@ -4,6 +4,7 @@ README.md
 CHANGELOG.md
 .github
 src/constants.ts
+src/metrics.ts
 LICENSE
 .gitignore
 .release-please-manifest.json
