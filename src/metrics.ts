@@ -1,4 +1,4 @@
-import { FliptApi } from "@flipt-io/flipt";
+import { FliptApi } from ".";
 import { Evaluation } from "api/resources/evaluation/client/Client";
 
 export class FliptMetrics {
