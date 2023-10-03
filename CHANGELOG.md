@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.12](https://github.com/flipt-io/flipt-node/compare/0.2.11...0.2.12) (2023-10-03)
+
+
+### Miscellaneous Chores
+
+* release 0.2.12 ([d17e8d0](https://github.com/flipt-io/flipt-node/commit/d17e8d068ac64a371e5b3dc167c968a53a995a9a))
+
 ## [0.2.11](https://github.com/flipt-io/flipt-node/compare/0.2.10...0.2.11) (2023-09-13)
 
 
