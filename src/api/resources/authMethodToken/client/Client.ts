@@ -37,7 +37,7 @@ export class AuthMethodToken {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.11",
+                "X-Fern-SDK-Version": "0.2.12",
             },
             contentType: "application/json",
             body: await serializers.AuthenticationTokenCreateRequest.jsonOrThrow(request, {
