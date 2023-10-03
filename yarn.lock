@@ -2,25 +2,25 @@
 # yarn lockfile v1
 
 
-"@datadog/browser-core@4.49.0":
-  version "4.49.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.49.0.tgz#583295079408893bc9eb601e05ef524f446949cb"
-  integrity sha512-qTPODRwGJG5eJLYKJ8X18es3zSF0htQhqpoyg3MehGsGfqJofDrDCP45ZfUf2Wk7K2JB2Oo2LvsfUJN0Mg51+g==
+"@datadog/browser-core@4.50.0":
+  version "4.50.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.50.0.tgz#cccac137af5c8921489f20b7e0104be7c0bc27af"
+  integrity sha512-I5fRko3h3xAbH/pktCFyGi6LaktL4E0KbBnYn0dcHE8fv/CHCSmAuz3bne5bElMIyzHRGZa1T7f8ttPFXTAZPw==
 
-"@datadog/browser-rum-core@4.49.0":
-  version "4.49.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.49.0.tgz#75fd2675df29d6aa2593fde6cc003187289497bd"
-  integrity sha512-Cy7nGLJOWCGuT5CEW0q1thgOVtZGaQ/36cnr10vMCgPnuKCbyro5hTV2AZsPXkocZWs/CCvUSldmO0rF2oR4vg==
+"@datadog/browser-rum-core@4.50.0":
+  version "4.50.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.50.0.tgz#4de02318f1ec03764fab9248f4b650b5292f270a"
+  integrity sha512-Ci+ZTWQ2IB91dRVFbfop8e/LjGCEqjy3MtTtlm+pg1x5JtY1cArcrH7swJcYfNnGBMXjDWiyRXgYaVH73WLfFQ==
   dependencies:
-    "@datadog/browser-core" "4.49.0"
+    "@datadog/browser-core" "4.50.0"
 
 "@datadog/browser-rum@^4.48.1":
-  version "4.49.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.49.0.tgz#3b68438dc804f07011e2bfcb63cdcd1ec34d1f4b"
-  integrity sha512-RRN4YA3rB43bhADKwEuG2bMyJE5jyiNO/VJc1D6DZFAHoq63R2ogyXpA9ihMhbD/7ZEpV57QA7wRsCOcrgKKKA==
+  version "4.50.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.50.0.tgz#bb342baf7333346147ba198298dfee21f3b1e491"
+  integrity sha512-DlzNejHvQgaNn4U56z0Ynguz8uYn/xG7hFzZqJkJuq/LplRHGn1KFc3xdfS/Sc9VgivdAMAIzAV0F3nC+tns2A==
   dependencies:
-    "@datadog/browser-core" "4.49.0"
-    "@datadog/browser-rum-core" "4.49.0"
+    "@datadog/browser-core" "4.50.0"
+    "@datadog/browser-rum-core" "4.50.0"
 
 "@types/node@17.0.33":
   version "17.0.33"
@@ -63,9 +63,9 @@ delayed-stream@~1.0.0:
   integrity sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
 
 follow-redirects@^1.14.9:
-  version "1.15.2"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
-  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
+  integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
 
 form-data@^4.0.0:
   version "4.0.0"
