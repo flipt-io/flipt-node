@@ -21,7 +21,7 @@ Version [0.2.2](https://github.com/flipt-io/flipt-node/releases/tag/0.2.2) of th
 
 ## Install
 
-```
+```console
 npm i @flipt-io/flipt@{version}
 ```
 
@@ -106,13 +106,3 @@ const response = await metricsClient.variant({
   context: {},
 });
 ```
-
-## Beta status
-
-This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning the package version to a specific version in your package.json file. This way, you can install the same version each time without breaking changes unless you are intentionally looking for the latest version.
-
-## Contributing
-
-While we value open-source contributions to this SDK, this library is generated programmatically. Additions made directly to this library would have to be moved over to our generation code, otherwise they would be overwritten upon the next generated release. Feel free to open a PR as a proof of concept, but know that we will not be able to merge it as-is. We suggest [opening an issue](https://github.com/flipt-io/flipt-node/issues) first to discuss with us!
-
-On the other hand, contributions to the README are always very welcome!
