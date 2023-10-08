@@ -28,18 +28,18 @@ npm i @flipt-io/flipt@{version}
 ## Usage
 
 ```typescript
-import { FliptApiClient } from '@flipt-io/flipt';
-import { DEFAULT_NAMESPACE } from '@flipt-io/flipt/constants';
-import { v4 as uuidv4 } from 'uuid';
+import { FliptApiClient } from "@flipt-io/flipt";
+import { DEFAULT_NAMESPACE } from "@flipt-io/flipt/constants";
+import { v4 as uuidv4 } from "uuid";
 
 const client = new FliptApiClient({
-  environment: "http://localhost:8080",
-  auth: {
-    credentials: {
-      username: "YOUR_USERNAME",
-      password: "YOUR_PASSWORD",
+    environment: "http://localhost:8080",
+    auth: {
+        credentials: {
+            username: "YOUR_USERNAME",
+            password: "YOUR_PASSWORD",
+        },
     },
-  },
 });
 ```
 
@@ -53,10 +53,10 @@ For more information on the new Evaluation API, please see the [API documentatio
 
 ```typescript
 const response = await client.evaluation.variant({
-  namespaceKey: DEFAULT_NAMESPACE,
-  flagKey: "abc123",
-  entityId: uuidv4(),
-  context: {},
+    namespaceKey: DEFAULT_NAMESPACE,
+    flagKey: "abc123",
+    entityId: uuidv4(),
+    context: {},
 });
 
 console.log("Received response from Flipt!", response);
@@ -69,40 +69,43 @@ There is support for [Datadog RUM](https://docs.datadoghq.com/real_user_monitori
 To start tracking feature flags on Datadog:
 
 ```typescript
-import { datadogRum } from '@datadog/browser-rum';
-import { FliptMetrics } from '@flipt-io/flipt/metrics';
+import { datadogRum } from "@datadog/browser-rum";
+import { FliptMetrics } from "@flipt-io/flipt/metrics";
 
 datadogRum.init({
-  applicationId: '<APPLICATION_ID>',
-  clientToken: '<CLIENT_TOKEN>',
-  site: 'datadoghq.com',
-  service:'<SERVICE_NAME>',
-  env:'<ENV_NAME>',
-  enableExperimentalFeatures: ["feature_flags"],
-  sessionSampleRate:100,
-  sessionReplaySampleRate: 20,
-  trackUserInteractions: true,
-  trackResources: true,
-  trackLongTasks: true,
-  defaultPrivacyLevel:'mask-user-input'
+    applicationId: "<APPLICATION_ID>",
+    clientToken: "<CLIENT_TOKEN>",
+    site: "datadoghq.com",
+    service: "<SERVICE_NAME>",
+    env: "<ENV_NAME>",
+    enableExperimentalFeatures: ["feature_flags"],
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: "mask-user-input",
 });
-  
+
 datadogRum.startSessionReplayRecording();
 
-const metricsClient = new FliptMetrics(new FliptApiClient({
-  environment: "http://localhost:8080",
-  auth: {
-    credentials: {
-      username: "YOUR_USERNAME",
-      password: "YOUR_PASSWORD",
-    },
-  },
-}).evaluation, datadogRum);
+const metricsClient = new FliptMetrics(
+    new FliptApiClient({
+        environment: "http://localhost:8080",
+        auth: {
+            credentials: {
+                username: "YOUR_USERNAME",
+                password: "YOUR_PASSWORD",
+            },
+        },
+    }).evaluation,
+    datadogRum
+);
 
 const response = await metricsClient.variant({
-  namespaceKey: "default",
-  flagKey: "hello-this",
-  entityId: uuidv4(),
-  context: {},
+    namespaceKey: "default",
+    flagKey: "hello-this",
+    entityId: uuidv4(),
+    context: {},
 });
 ```
