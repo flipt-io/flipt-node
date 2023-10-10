@@ -37,7 +37,7 @@ export class Evaluation {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.12",
+                "X-Fern-SDK-Version": "0.2.13",
             },
             contentType: "application/json",
             body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request, {
@@ -90,7 +90,7 @@ export class Evaluation {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.12",
+                "X-Fern-SDK-Version": "0.2.13",
             },
             contentType: "application/json",
             body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request, {
@@ -143,7 +143,7 @@ export class Evaluation {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.12",
+                "X-Fern-SDK-Version": "0.2.13",
             },
             contentType: "application/json",
             body: await serializers.evaluation.BatchEvaluationRequest.jsonOrThrow(request, {
