@@ -1,7 +1,7 @@
 # Flipt Node Library
 
 [![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)](https://www.npmjs.com/package/@flipt-io/flipt)
-![status](https://img.shields.io/badge/status-hardening-orange)
+![status](https://img.shields.io/badge/status-stable-green)
 
 ## Documentation
 
