@@ -11,6 +11,7 @@ export const BooleanEvaluationResponse: core.serialization.ObjectSchema<
     FliptApi.evaluation.BooleanEvaluationResponse
 > = core.serialization.object({
     requestId: core.serialization.string(),
+    flagKey: core.serialization.string(),
     enabled: core.serialization.boolean(),
     timestamp: core.serialization.date(),
     requestDurationMillis: core.serialization.number(),
@@ -20,6 +21,7 @@ export const BooleanEvaluationResponse: core.serialization.ObjectSchema<
 export declare namespace BooleanEvaluationResponse {
     interface Raw {
         requestId: string;
+        flagKey: string;
         enabled: boolean;
         timestamp: string;
         requestDurationMillis: number;
