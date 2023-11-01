@@ -12,6 +12,7 @@ export const VariantEvaluationResponse: core.serialization.ObjectSchema<
 > = core.serialization.object({
     requestId: core.serialization.string(),
     match: core.serialization.boolean(),
+    flagKey: core.serialization.string(),
     segmentKeys: core.serialization.list(core.serialization.string()),
     variantKey: core.serialization.string(),
     variantAttachment: core.serialization.string(),
@@ -24,6 +25,7 @@ export declare namespace VariantEvaluationResponse {
     interface Raw {
         requestId: string;
         match: boolean;
+        flagKey: string;
         segmentKeys: string[];
         variantKey: string;
         variantAttachment: string;

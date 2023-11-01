@@ -6,6 +6,7 @@ import * as FliptApi from "../../..";
 
 export interface BooleanEvaluationResponse {
     requestId: string;
+    flagKey: string;
     enabled: boolean;
     timestamp: Date;
     requestDurationMillis: number;

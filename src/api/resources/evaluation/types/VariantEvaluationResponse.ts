@@ -7,6 +7,7 @@ import * as FliptApi from "../../..";
 export interface VariantEvaluationResponse {
     requestId: string;
     match: boolean;
+    flagKey: string;
     segmentKeys: string[];
     variantKey: string;
     variantAttachment: string;
