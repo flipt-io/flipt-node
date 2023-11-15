@@ -4,6 +4,7 @@
 
 export interface AuthenticationTokenCreateRequest {
     name: string;
+    namespaceKey?: string;
     description: string;
     expiresAt?: Date;
 }

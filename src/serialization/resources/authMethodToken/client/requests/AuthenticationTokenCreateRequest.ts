@@ -11,6 +11,7 @@ export const AuthenticationTokenCreateRequest: core.serialization.Schema<
     FliptApi.AuthenticationTokenCreateRequest
 > = core.serialization.object({
     name: core.serialization.string(),
+    namespaceKey: core.serialization.string().optional(),
     description: core.serialization.string(),
     expiresAt: core.serialization.date().optional(),
 });
@@ -18,6 +19,7 @@ export const AuthenticationTokenCreateRequest: core.serialization.Schema<
 export declare namespace AuthenticationTokenCreateRequest {
     interface Raw {
         name: string;
+        namespaceKey?: string | null;
         description: string;
         expiresAt?: string | null;
     }
