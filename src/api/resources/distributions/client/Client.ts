@@ -8,7 +8,6 @@ import * as FliptApi from "../../..";
 import * as serializers from "../../../../serialization";
 import urlJoin from "url-join";
 import * as errors from "../../../../errors";
-import { default as URLSearchParams } from "@ungap/url-search-params";
 
 export declare namespace Distributions {
     interface Options {
@@ -18,11 +17,12 @@ export declare namespace Distributions {
 
     interface RequestOptions {
         timeoutInSeconds?: number;
+        maxRetries?: number;
     }
 }
 
 export class Distributions {
-    constructor(protected readonly _options: Distributions.Options) {}
+    constructor(protected readonly _options: Distributions.Options = {}) {}
 
     public async create(
         namespaceKey: string,
@@ -41,11 +41,12 @@ export class Distributions {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.DistributionCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.Distribution.parseOrThrow(_response.body, {
@@ -87,8 +88,8 @@ export class Distributions {
         requestOptions?: Distributions.RequestOptions
     ): Promise<void> {
         const { variantId } = request;
-        const _queryParams = new URLSearchParams();
-        _queryParams.append("variantId", variantId);
+        const _queryParams: Record<string, string | string[]> = {};
+        _queryParams["variantId"] = variantId;
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -99,11 +100,12 @@ export class Distributions {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return;
@@ -149,11 +151,12 @@ export class Distributions {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.DistributionUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.Distribution.parseOrThrow(_response.body, {

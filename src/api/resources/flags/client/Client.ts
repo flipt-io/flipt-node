@@ -5,7 +5,6 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as FliptApi from "../../..";
-import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
@@ -18,11 +17,12 @@ export declare namespace Flags {
 
     interface RequestOptions {
         timeoutInSeconds?: number;
+        maxRetries?: number;
     }
 }
 
 export class Flags {
-    constructor(protected readonly _options: Flags.Options) {}
+    constructor(protected readonly _options: Flags.Options = {}) {}
 
     public async list(
         namespaceKey: string,
@@ -30,17 +30,17 @@ export class Flags {
         requestOptions?: Flags.RequestOptions
     ): Promise<FliptApi.FlagList> {
         const { limit, offset, pageToken } = request;
-        const _queryParams = new URLSearchParams();
+        const _queryParams: Record<string, string | string[]> = {};
         if (limit != null) {
-            _queryParams.append("limit", limit.toString());
+            _queryParams["limit"] = limit.toString();
         }
 
         if (offset != null) {
-            _queryParams.append("offset", offset.toString());
+            _queryParams["offset"] = offset.toString();
         }
 
         if (pageToken != null) {
-            _queryParams.append("pageToken", pageToken);
+            _queryParams["pageToken"] = pageToken;
         }
 
         const _response = await core.fetcher({
@@ -53,11 +53,12 @@ export class Flags {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.FlagList.parseOrThrow(_response.body, {
@@ -105,11 +106,12 @@ export class Flags {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.FlagCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.Flag.parseOrThrow(_response.body, {
@@ -153,10 +155,11 @@ export class Flags {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.Flag.parseOrThrow(_response.body, {
@@ -200,10 +203,11 @@ export class Flags {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return;
@@ -247,11 +251,12 @@ export class Flags {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.FlagUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.Flag.parseOrThrow(_response.body, {

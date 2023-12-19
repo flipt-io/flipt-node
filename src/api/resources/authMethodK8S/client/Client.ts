@@ -17,11 +17,12 @@ export declare namespace AuthMethodK8S {
 
     interface RequestOptions {
         timeoutInSeconds?: number;
+        maxRetries?: number;
     }
 }
 
 export class AuthMethodK8S {
-    constructor(protected readonly _options: AuthMethodK8S.Options) {}
+    constructor(protected readonly _options: AuthMethodK8S.Options = {}) {}
 
     public async verifyServiceAccount(
         request: FliptApi.KubernetesVerifyServiceAccount,
@@ -37,13 +38,14 @@ export class AuthMethodK8S {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.KubernetesVerifyServiceAccount.jsonOrThrow(request, {
                 unrecognizedObjectKeys: "strip",
             }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.AuthenticationToken.parseOrThrow(_response.body, {
