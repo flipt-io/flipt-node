@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.16](https://github.com/flipt-io/flipt-node/compare/0.2.15...0.2.16) (2023-12-20)
+
+
+### Miscellaneous Chores
+
+* release 0.2.16 ([dbd6262](https://github.com/flipt-io/flipt-node/commit/dbd6262212dfbb6d77047d0b0834b560a4868ee2))
+
 ## [0.2.15](https://github.com/flipt-io/flipt-node/compare/0.2.12...0.2.15) (2023-11-15)
 
 
