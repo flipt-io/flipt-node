@@ -17,11 +17,12 @@ export declare namespace Evaluation {
 
     interface RequestOptions {
         timeoutInSeconds?: number;
+        maxRetries?: number;
     }
 }
 
 export class Evaluation {
-    constructor(protected readonly _options: Evaluation.Options) {}
+    constructor(protected readonly _options: Evaluation.Options = {}) {}
 
     public async boolean(
         request: FliptApi.evaluation.EvaluationRequest,
@@ -37,13 +38,14 @@ export class Evaluation {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request, {
                 unrecognizedObjectKeys: "strip",
             }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.evaluation.BooleanEvaluationResponse.parseOrThrow(_response.body, {
@@ -90,13 +92,14 @@ export class Evaluation {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.evaluation.EvaluationRequest.jsonOrThrow(request, {
                 unrecognizedObjectKeys: "strip",
             }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.evaluation.VariantEvaluationResponse.parseOrThrow(_response.body, {
@@ -143,13 +146,14 @@ export class Evaluation {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             body: await serializers.evaluation.BatchEvaluationRequest.jsonOrThrow(request, {
                 unrecognizedObjectKeys: "strip",
             }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.evaluation.BatchEvaluationResponse.parseOrThrow(_response.body, {

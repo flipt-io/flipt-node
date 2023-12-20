@@ -5,7 +5,6 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as FliptApi from "../../..";
-import { default as URLSearchParams } from "@ungap/url-search-params";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization";
 import * as errors from "../../../../errors";
@@ -18,11 +17,12 @@ export declare namespace AuthMethodOidc {
 
     interface RequestOptions {
         timeoutInSeconds?: number;
+        maxRetries?: number;
     }
 }
 
 export class AuthMethodOidc {
-    constructor(protected readonly _options: AuthMethodOidc.Options) {}
+    constructor(protected readonly _options: AuthMethodOidc.Options = {}) {}
 
     public async authorizeUrl(
         provider: string,
@@ -30,8 +30,8 @@ export class AuthMethodOidc {
         requestOptions?: AuthMethodOidc.RequestOptions
     ): Promise<FliptApi.OidcAuthorizeUrlResponse> {
         const { state } = request;
-        const _queryParams = new URLSearchParams();
-        _queryParams.append("state", state);
+        const _queryParams: Record<string, string | string[]> = {};
+        _queryParams["state"] = state;
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -42,11 +42,12 @@ export class AuthMethodOidc {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.OidcAuthorizeUrlResponse.parseOrThrow(_response.body, {
@@ -85,9 +86,9 @@ export class AuthMethodOidc {
         requestOptions?: AuthMethodOidc.RequestOptions
     ): Promise<FliptApi.OidcCallbackResponse> {
         const { code, state } = request;
-        const _queryParams = new URLSearchParams();
-        _queryParams.append("code", code);
-        _queryParams.append("state", state);
+        const _queryParams: Record<string, string | string[]> = {};
+        _queryParams["code"] = code;
+        _queryParams["state"] = state;
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -98,11 +99,12 @@ export class AuthMethodOidc {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.15",
+                "X-Fern-SDK-Version": "0.2.17",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
         });
         if (_response.ok) {
             return await serializers.OidcCallbackResponse.parseOrThrow(_response.body, {

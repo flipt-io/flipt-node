@@ -27,11 +27,12 @@ export declare namespace FliptApiClient {
 
     interface RequestOptions {
         timeoutInSeconds?: number;
+        maxRetries?: number;
     }
 }
 
 export class FliptApiClient {
-    constructor(protected readonly _options: FliptApiClient.Options) {}
+    constructor(protected readonly _options: FliptApiClient.Options = {}) {}
 
     protected _evaluation: Evaluation | undefined;
 
