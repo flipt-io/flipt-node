@@ -29,7 +29,7 @@ export class Segments {
         request: FliptApi.SegmentListRequest = {},
         requestOptions?: Segments.RequestOptions
     ): Promise<FliptApi.SegmentList> {
-        const { limit, offset, pageToken } = request;
+        const { limit, offset, pageToken, reference } = request;
         const _queryParams: Record<string, string | string[]> = {};
         if (limit != null) {
             _queryParams["limit"] = limit.toString();
@@ -43,6 +43,10 @@ export class Segments {
             _queryParams["pageToken"] = pageToken;
         }
 
+        if (reference != null) {
+            _queryParams["reference"] = reference;
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -53,7 +57,7 @@ export class Segments {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -106,7 +110,7 @@ export class Segments {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             body: await serializers.SegmentCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
@@ -147,8 +151,15 @@ export class Segments {
     public async get(
         namespaceKey: string,
         key: string,
+        request: FliptApi.SegmentGetRequest = {},
         requestOptions?: Segments.RequestOptions
     ): Promise<FliptApi.Segment> {
+        const { reference } = request;
+        const _queryParams: Record<string, string | string[]> = {};
+        if (reference != null) {
+            _queryParams["reference"] = reference;
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -159,9 +170,10 @@ export class Segments {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
+            queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
         });
@@ -207,7 +219,7 @@ export class Segments {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
@@ -255,7 +267,7 @@ export class Segments {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             body: await serializers.SegmentUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),

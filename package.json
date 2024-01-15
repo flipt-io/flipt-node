@@ -1,6 +1,6 @@
 {
     "name": "@flipt-io/flipt",
-    "version": "0.2.17",
+    "version": "0.2.18",
     "private": false,
     "repository": "https://github.com/flipt-io/flipt-node",
     "main": "./index.js",

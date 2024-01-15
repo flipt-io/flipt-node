@@ -8,4 +8,5 @@ export interface EvaluationRequest {
     flagKey: string;
     entityId: string;
     context: Record<string, string>;
+    reference?: string;
 }
