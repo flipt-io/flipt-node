@@ -1,6 +1,9 @@
-# Flipt Node Library
+# Flipt Node Library (Deprecated)
 
-[![npm](https://img.shields.io/npm/v/@flipt-io/flipt?label=%40flipt-io%2Fflipt)](https://www.npmjs.com/package/@flipt-io/flipt)
+![deprecated](https://img.shields.io/badge/status-deprecated-red)
+
+> [!WARNING]
+> This SDK is deprecated and will not be maintained going forward. Please use the new [Flipt Server Node SDK](https://github.com/flipt-io/flipt-server-sdks/tree/main/flipt-node) instead.
 
 ## Documentation
 
