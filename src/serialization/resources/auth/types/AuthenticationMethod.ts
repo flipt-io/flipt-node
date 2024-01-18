@@ -9,8 +9,8 @@ import * as core from "../../../../core";
 export const AuthenticationMethod: core.serialization.Schema<
     serializers.AuthenticationMethod.Raw,
     FliptApi.AuthenticationMethod
-> = core.serialization.enum_(["METHOD_NONE", "METHOD_TOKEN", "METHOD_OIDC", "METHOD_KUBERNETES"]);
+> = core.serialization.enum_(["METHOD_NONE", "METHOD_TOKEN", "METHOD_OIDC", "METHOD_KUBERNETES", "METHOD_JWT"]);
 
 export declare namespace AuthenticationMethod {
-    type Raw = "METHOD_NONE" | "METHOD_TOKEN" | "METHOD_OIDC" | "METHOD_KUBERNETES";
+    type Raw = "METHOD_NONE" | "METHOD_TOKEN" | "METHOD_OIDC" | "METHOD_KUBERNETES" | "METHOD_JWT";
 }

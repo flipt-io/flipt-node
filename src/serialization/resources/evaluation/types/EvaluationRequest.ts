@@ -15,6 +15,7 @@ export const EvaluationRequest: core.serialization.ObjectSchema<
     flagKey: core.serialization.string(),
     entityId: core.serialization.string(),
     context: core.serialization.record(core.serialization.string(), core.serialization.string()),
+    reference: core.serialization.string().optional(),
 });
 
 export declare namespace EvaluationRequest {
@@ -24,5 +25,6 @@ export declare namespace EvaluationRequest {
         flagKey: string;
         entityId: string;
         context: Record<string, string>;
+        reference?: string | null;
     }
 }

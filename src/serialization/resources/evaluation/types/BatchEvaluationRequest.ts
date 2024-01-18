@@ -14,11 +14,13 @@ export const BatchEvaluationRequest: core.serialization.ObjectSchema<
     requests: core.serialization.list(
         core.serialization.lazyObject(async () => (await import("../../..")).evaluation.EvaluationRequest)
     ),
+    reference: core.serialization.string().optional(),
 });
 
 export declare namespace BatchEvaluationRequest {
     interface Raw {
         requestId?: string | null;
         requests: serializers.evaluation.EvaluationRequest.Raw[];
+        reference?: string | null;
     }
 }

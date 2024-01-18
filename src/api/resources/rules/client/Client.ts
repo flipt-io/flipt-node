@@ -30,7 +30,7 @@ export class Rules {
         request: FliptApi.RuleListRequest = {},
         requestOptions?: Rules.RequestOptions
     ): Promise<FliptApi.RuleList> {
-        const { limit, offset, pageToken } = request;
+        const { limit, offset, pageToken, reference } = request;
         const _queryParams: Record<string, string | string[]> = {};
         if (limit != null) {
             _queryParams["limit"] = limit.toString();
@@ -44,6 +44,10 @@ export class Rules {
             _queryParams["pageToken"] = pageToken;
         }
 
+        if (reference != null) {
+            _queryParams["reference"] = reference;
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -54,7 +58,7 @@ export class Rules {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -108,7 +112,7 @@ export class Rules {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             body: await serializers.RuleCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
@@ -162,7 +166,7 @@ export class Rules {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             body: await serializers.RuleOrderRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
@@ -199,8 +203,15 @@ export class Rules {
         namespaceKey: string,
         flagKey: string,
         id: string,
+        request: FliptApi.RulesGetRequest = {},
         requestOptions?: Rules.RequestOptions
     ): Promise<FliptApi.Rule> {
+        const { reference } = request;
+        const _queryParams: Record<string, string | string[]> = {};
+        if (reference != null) {
+            _queryParams["reference"] = reference;
+        }
+
         const _response = await core.fetcher({
             url: urlJoin(
                 (await core.Supplier.get(this._options.environment)) ?? environments.FliptApiEnvironment.Production,
@@ -211,9 +222,10 @@ export class Rules {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
+            queryParameters: _queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
         });
@@ -264,7 +276,7 @@ export class Rules {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
@@ -313,7 +325,7 @@ export class Rules {
                 Authorization: await this._getAuthorizationHeader(),
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@flipt-io/flipt",
-                "X-Fern-SDK-Version": "0.2.17",
+                "X-Fern-SDK-Version": "0.2.18",
             },
             contentType: "application/json",
             body: await serializers.RuleUpdateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
